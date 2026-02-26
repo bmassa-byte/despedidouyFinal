@@ -1,0 +1,5 @@
+{
+  "name": "DespedidoUy - Especialistas en Derecho Laboral",
+  "description": "Defensa integral del trabajador en Uruguay. Despidos, accidentes y reclamos laborales. Habla con abogados especializados.",
+  "requestFramePermissions": ["geolocation"]
+}

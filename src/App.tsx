@@ -30,7 +30,29 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { GoogleGenAI } from "@google/genai";
 
+// Función para registrar conversiones en Google Ads
+export const trackConversion = () => {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'conversion', {
+      'send_to': 'AW-16641762776/URi1CK-Q04IaENjLtP89'
+    });
+  }
+};
+
 // --- Components ---
+
+const WhatsAppIcon = ({ size = 24, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+  </svg>
+);
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +75,7 @@ const Navbar = () => {
             <Scale className="text-white w-6 h-6" />
           </div>
           <span className={cn(
-            "font-serif text-xl font-bold tracking-tight",
+            "font-serif text-2xl font-bold tracking-tight",
             scrolled ? "text-primary" : "text-white"
           )}>
             Despedido<span className="text-accent">Uy</span>
@@ -75,7 +97,8 @@ const Navbar = () => {
             </a>
           ))}
           <a 
-            href="tel:+59891418114"
+            href="tel:+59899039588"
+            onClick={trackConversion}
             className="bg-accent hover:bg-accent/90 text-primary font-bold px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
           >
             <Phone size={18} />
@@ -118,7 +141,8 @@ const Navbar = () => {
               ))}
               <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
                 <a 
-                  href="tel:+59891418114"
+                  href="tel:+59899039588"
+                  onClick={trackConversion}
                   className="w-full bg-primary text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
                 >
                   <Phone size={20} />
@@ -126,9 +150,12 @@ const Navbar = () => {
                 </a>
                 <a 
                   href="https://wa.me/59891418114"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={trackConversion}
                   className="w-full bg-emerald-500 text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
                 >
-                  <MessageSquare size={20} />
+                  <WhatsAppIcon size={20} />
                   WhatsApp
                 </a>
               </div>
@@ -141,6 +168,20 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    departamento: 'Montevideo',
+    situacion: 'Despido'
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.nombre || !formData.departamento) return;
+    trackConversion();
+    const text = `Hola DespedidoUy. Quiero hacer una consulta.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nDepartamento: ${formData.departamento}\n\n*Mi Situación:*\n${formData.situacion}`;
+    window.open(`https://wa.me/59891418114?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-primary">
       {/* Background Image with Overlay */}
@@ -174,10 +215,13 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-5">
             <a 
               href="https://wa.me/59891418114"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={trackConversion}
               className="bg-accent hover:bg-accent/90 text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-accent/20 transition-all active:scale-95 flex items-center justify-center gap-3 group"
             >
               Habla con un Abogado
-              <MessageSquare size={20} />
+              <WhatsAppIcon size={20} />
             </a>
           </div>
 
@@ -206,25 +250,46 @@ const Hero = () => {
           <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[40px] shadow-2xl">
             <h3 className="text-2xl font-bold text-white mb-8">Consultanos sin compromiso</h3>
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-5" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Nombre</label>
-                <input type="text" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all" placeholder="Tu nombre completo" />
+                <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all" placeholder="Tu nombre completo" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">WhatsApp</label>
-                <input type="tel" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all" placeholder="Ej: 099 123 456" />
+                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Departamento</label>
+                <select required value={formData.departamento} onChange={e => setFormData({...formData, departamento: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
+                  <option value="Montevideo" className="bg-primary">Montevideo</option>
+                  <option value="Artigas" className="bg-primary">Artigas</option>
+                  <option value="Canelones" className="bg-primary">Canelones</option>
+                  <option value="Cerro Largo" className="bg-primary">Cerro Largo</option>
+                  <option value="Colonia" className="bg-primary">Colonia</option>
+                  <option value="Durazno" className="bg-primary">Durazno</option>
+                  <option value="Flores" className="bg-primary">Flores</option>
+                  <option value="Florida" className="bg-primary">Florida</option>
+                  <option value="Lavalleja" className="bg-primary">Lavalleja</option>
+                  <option value="Maldonado" className="bg-primary">Maldonado</option>
+                  <option value="Paysandú" className="bg-primary">Paysandú</option>
+                  <option value="Río Negro" className="bg-primary">Río Negro</option>
+                  <option value="Rivera" className="bg-primary">Rivera</option>
+                  <option value="Rocha" className="bg-primary">Rocha</option>
+                  <option value="Salto" className="bg-primary">Salto</option>
+                  <option value="San José" className="bg-primary">San José</option>
+                  <option value="Soriano" className="bg-primary">Soriano</option>
+                  <option value="Tacuarembó" className="bg-primary">Tacuarembó</option>
+                  <option value="Treinta y Tres" className="bg-primary">Treinta y Tres</option>
+                </select>
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Tu situación</label>
-                <select className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
-                  <option className="bg-primary">Despido</option>
-                  <option className="bg-primary">Trabajo en negro</option>
-                  <option className="bg-primary">Accidente laboral</option>
-                  <option className="bg-primary">Sueldos impagos</option>
+                <select value={formData.situacion} onChange={e => setFormData({...formData, situacion: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
+                  <option value="Despido" className="bg-primary">Despido</option>
+                  <option value="Trabajo en negro" className="bg-primary">Trabajo en negro</option>
+                  <option value="Accidente laboral" className="bg-primary">Accidente laboral</option>
+                  <option value="Sueldos impagos" className="bg-primary">Sueldos impagos</option>
                 </select>
               </div>
-              <button className="w-full bg-white text-primary font-bold py-5 rounded-2xl hover:bg-accent hover:text-white transition-all active:scale-[0.98] mt-4">
+              <button type="submit" className="w-full bg-white text-primary font-bold py-5 rounded-2xl hover:bg-accent hover:text-white transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2">
+                <WhatsAppIcon size={20} />
                 Enviar Consulta
               </button>
             </form>
@@ -301,10 +366,13 @@ const Services = () => {
 
               <a 
                 href="https://wa.me/59891418114"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={trackConversion}
                 className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
               >
                 Consultar por WhatsApp
-                <MessageSquare size={18} />
+                <WhatsAppIcon size={18} />
               </a>
             </motion.div>
           ))}
@@ -324,7 +392,7 @@ const CalculatorSection = () => {
     diasLicencia: '',
     motivo: 'Despido común',
     nombre: '',
-    telefono: ''
+    departamento: 'Montevideo'
   });
   const [resultado, setResultado] = useState({
     ipd: 0,
@@ -344,7 +412,7 @@ const CalculatorSection = () => {
       }
       setStep(2);
     } else if (step === 2) {
-      if (!formData.nombre || !formData.telefono) return;
+      if (!formData.nombre || !formData.departamento) return;
       calculate();
     }
   };
@@ -417,7 +485,8 @@ const CalculatorSection = () => {
   };
 
   const handleWhatsApp = () => {
-    const text = `Hola DespedidoUy. Usé la calculadora web.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nTeléfono: ${formData.telefono}\n\n*Mi Situación:*\nTipo: ${formData.tipo}\nMonto: $${formData.monto}\nIngreso: ${formData.ingreso}\nEgreso: ${formData.egreso}\nLicencia pendiente: ${formData.diasLicencia} días\nMotivo: ${formData.motivo}\n\n*Resultado estimado:* $${Math.round(resultado.total).toLocaleString('es-UY')}\n(IPD: $${Math.round(resultado.ipd).toLocaleString('es-UY')} | Rubros Salariales: $${Math.round(resultado.rubrosSalariales).toLocaleString('es-UY')})\n\nQuiero solicitar una consulta gratuita para analizar mi caso exacto.`;
+    trackConversion();
+    const text = `Hola DespedidoUy. Usé la calculadora web.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nDepartamento: ${formData.departamento}\n\n*Mi Situación:*\nTipo: ${formData.tipo}\nMonto: $${formData.monto}\nIngreso: ${formData.ingreso}\nEgreso: ${formData.egreso}\nLicencia pendiente: ${formData.diasLicencia} días\nMotivo: ${formData.motivo}\n\n*Resultado estimado:* $${Math.round(resultado.total).toLocaleString('es-UY')}\n(IPD: $${Math.round(resultado.ipd).toLocaleString('es-UY')} | Rubros Salariales: $${Math.round(resultado.rubrosSalariales).toLocaleString('es-UY')})\n\nQuiero solicitar una consulta gratuita para analizar mi caso exacto.`;
     window.open(`https://wa.me/59891418114?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -512,10 +581,30 @@ const CalculatorSection = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Teléfono / WhatsApp</label>
+                  <label className="text-sm font-bold text-slate-700">Departamento</label>
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                    <input required type="tel" value={formData.telefono} onChange={e => setFormData({...formData, telefono: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all" placeholder="Ej: 099 123 456" />
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                    <select required value={formData.departamento} onChange={e => setFormData({...formData, departamento: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all appearance-none">
+                      <option value="Montevideo">Montevideo</option>
+                      <option value="Artigas">Artigas</option>
+                      <option value="Canelones">Canelones</option>
+                      <option value="Cerro Largo">Cerro Largo</option>
+                      <option value="Colonia">Colonia</option>
+                      <option value="Durazno">Durazno</option>
+                      <option value="Flores">Flores</option>
+                      <option value="Florida">Florida</option>
+                      <option value="Lavalleja">Lavalleja</option>
+                      <option value="Maldonado">Maldonado</option>
+                      <option value="Paysandú">Paysandú</option>
+                      <option value="Río Negro">Río Negro</option>
+                      <option value="Rivera">Rivera</option>
+                      <option value="Rocha">Rocha</option>
+                      <option value="Salto">Salto</option>
+                      <option value="San José">San José</option>
+                      <option value="Soriano">Soriano</option>
+                      <option value="Tacuarembó">Tacuarembó</option>
+                      <option value="Treinta y Tres">Treinta y Tres</option>
+                    </select>
                   </div>
                 </div>
                 <div className="flex gap-4 mt-8">
@@ -552,7 +641,7 @@ const CalculatorSection = () => {
                   <strong>⚠️ Importante:</strong> Este valor es una estimación básica, no vinculante. No incluye posibles horas extras impagas u otros rubros salariales que podrían hacer variar <strong>significativamente</strong> este monto.
                 </div>
                 <button onClick={handleWhatsApp} className="w-full bg-emerald-500 text-white text-sm sm:text-lg font-bold py-4 sm:py-5 px-4 rounded-2xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 sm:gap-3 animate-pulse">
-                  <MessageSquare size={20} className="flex-shrink-0" />
+                  <WhatsAppIcon size={20} className="flex-shrink-0" />
                   <span>Solicitar Análisis Exacto por WhatsApp</span>
                 </button>
                 <button onClick={() => {setStep(1); setResultado({ipd:0, rubrosSalariales:0, total:0});}} className="mt-6 text-slate-400 font-medium hover:text-primary transition-colors text-sm sm:text-base">
@@ -665,7 +754,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Lo que dicen nuestros clientes</h2>
-          <p className="text-lg text-slate-600">La confianza de quienes ya defendimos es nuestro mayor aval.</p>
+          <p className="text-lg text-slate-600">La confianza de quienes ya defendimos es nuestro respaldo.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -823,12 +912,16 @@ const Footer = () => {
           <div className="flex gap-4">
             <a 
               href="https://wa.me/59891418114"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={trackConversion}
               className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-primary transition-all cursor-pointer"
             >
-              <MessageSquare size={20} />
+              <WhatsAppIcon size={20} />
             </a>
             <a 
-              href="tel:+59891418114"
+              href="tel:+59899039588"
+              onClick={trackConversion}
               className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-primary transition-all cursor-pointer"
             >
               <Phone size={20} />
@@ -846,12 +939,16 @@ const Footer = () => {
 
 const FloatingCTA = () => {
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3 md:hidden">
+    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
       <a 
         href="https://wa.me/59891418114"
-        className="bg-emerald-500 text-white p-4 rounded-full shadow-2xl animate-bounce"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={trackConversion}
+        className="bg-emerald-500 text-white p-4 rounded-full shadow-2xl animate-bounce hover:bg-emerald-600 transition-colors"
+        aria-label="Contactar por WhatsApp"
       >
-        <MessageSquare size={28} />
+        <WhatsAppIcon size={28} />
       </a>
     </div>
   );
@@ -880,13 +977,17 @@ export default function App() {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
               href="https://wa.me/59891418114"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={trackConversion}
               className="bg-accent text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-accent/90 transition-all active:scale-95 flex items-center justify-center gap-3"
             >
-              <MessageSquare size={24} />
+              <WhatsAppIcon size={24} />
               Habla con un Abogado
             </a>
             <a 
-              href="tel:+59891418114"
+              href="tel:+59899039588"
+              onClick={trackConversion}
               className="bg-white/10 text-white border border-white/20 text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-white/20 transition-all active:scale-95 flex items-center justify-center gap-3"
             >
               <Phone size={24} />

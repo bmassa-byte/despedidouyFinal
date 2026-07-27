@@ -38,6 +38,37 @@ export const trackConversion = () => {
     });
   }
 };
+// Recupera el GCLID guardado (válido por 90 días)
+const getStoredGclid = (): string | null => {
+  try {
+    const raw = localStorage.getItem('gclid_data');
+    if (!raw) return null;
+    const { gclid, ts } = JSON.parse(raw);
+    const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
+    if (Date.now() - ts > ninetyDaysMs) return null;
+    return gclid;
+  } catch {
+    return null;
+  }
+};
+
+// Arma el link de WhatsApp agregando la referencia corta del GCLID
+const buildWhatsAppUrl = (baseText: string = ''): string => {
+  const gclid = getStoredGclid();
+  let text = baseText;
+  if (gclid) {
+    const ref = gclid.slice(-8);
+    text = text ? `${text}\n\n[ref:${ref}]` : `[ref:${ref}]`;
+  }
+  const query = text ? `?text=${encodeURIComponent(text)}` : '';
+  return `https://wa.me/59891418114${query}`;
+};
+
+// Abre WhatsApp: registra conversión y agrega la referencia
+const openWhatsApp = (baseText: string = '') => {
+  trackConversion();
+  window.open(buildWhatsAppUrl(baseText), '_blank');
+};
 
 // --- Components ---
 

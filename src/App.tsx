@@ -251,13 +251,10 @@ const Hero = () => {
               href="https://wa.me/59891418114"
               target="_blank"
               rel="noopener noreferrer"
-                 onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
-}}    onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
-}}
+                onClick={(e) => {
+                e.preventDefault();
+                openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
+              }}
               className="bg-accent hover:bg-accent/90 text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-accent/20 transition-all active:scale-95 flex items-center justify-center gap-3 group"
             >
               Habla con un Abogado

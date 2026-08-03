@@ -52,13 +52,18 @@ const getStoredGclid = (): string | null => {
   }
 };
 
-// Arma el link de WhatsApp agregando la referencia corta del GCLID
+// Arma el link de WhatsApp agregando el número de consulta con fecha y hora
 const buildWhatsAppUrl = (baseText: string = ''): string => {
   const gclid = getStoredGclid();
   let text = baseText;
   if (gclid) {
     const ref = gclid.slice(-8);
-    text = text ? `${text}\n\n[ref:${ref}]` : `[ref:${ref}]`;
+    const now = new Date();
+    const fecha = now.toLocaleDateString('es-UY');
+    const hora = now.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
+    text = text
+      ? `${text}\n\nN° de consulta: ${ref}\nFecha: ${fecha} ${hora}`
+      : `N° de consulta: ${ref}\nFecha: ${fecha} ${hora}`;
   }
   const query = text ? `?text=${encodeURIComponent(text)}` : '';
   return `https://wa.me/59891418114${query}`;

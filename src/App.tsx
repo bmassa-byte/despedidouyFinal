@@ -183,7 +183,10 @@ const Navbar = () => {
                   href="https://wa.me/59891418114"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+                  onClick={(e) => { e.preventDefault(); openWhatsApp((
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
                   className="w-full bg-emerald-500 text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
                 >
                   <WhatsAppIcon size={20} />
@@ -248,7 +251,10 @@ const Hero = () => {
               href="https://wa.me/59891418114"
               target="_blank"
               rel="noopener noreferrer"
-             onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+             onClick={(e) => { e.preventDefault(); openWhatsApp((
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
               className="bg-accent hover:bg-accent/90 text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-accent/20 transition-all active:scale-95 flex items-center justify-center gap-3 group"
             >
               Habla con un Abogado
@@ -399,7 +405,10 @@ const Services = () => {
                 href="https://wa.me/59891418114"
                 target="_blank"
                 rel="noopener noreferrer"
-               onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+               onClick={(e) => { e.preventDefault(); openWhatsApp((
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
                 className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
               >
                 Consultar por WhatsApp
@@ -945,7 +954,10 @@ const Footer = () => {
               href="https://wa.me/59891418114"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+              onClick={(e) => { e.preventDefault(); openWhatsApp(
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
               className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-primary transition-all cursor-pointer"
             >
               <WhatsAppIcon size={20} />
@@ -975,7 +987,10 @@ const FloatingCTA = () => {
         href="https://wa.me/59891418114"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+        onClick={(e) => { e.preventDefault(); openWhatsApp(
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
         className="bg-emerald-500 text-white p-4 rounded-full shadow-2xl animate-bounce hover:bg-emerald-600 transition-colors"
         aria-label="Contactar por WhatsApp"
       >
@@ -1010,7 +1025,10 @@ export default function App() {
               href="https://wa.me/59891418114"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => { e.preventDefault(); openWhatsApp(); }}
+              onClick={(e) => { e.preventDefault(); openWhatsApp(
+    'Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.'
+  );
+}}
               className="bg-accent text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-accent/90 transition-all active:scale-95 flex items-center justify-center gap-3"
             >
               <WhatsAppIcon size={24} />

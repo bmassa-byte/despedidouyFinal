@@ -38,15 +38,15 @@ export const trackConversion = () => {
     });
   }
 };
-// Recupera el GCLID guardado (válido por 90 días)
-const getStoredGclid = (): string | null => {
+// Recupera el GCLID guardado y su número de referencia (válido por 90 días)
+const getStoredGclid = (): { gclid: string; refId: string } | null => {
   try {
     const raw = localStorage.getItem('gclid_data');
     if (!raw) return null;
-    const { gclid, ts } = JSON.parse(raw);
+    const { gclid, ts, refId } = JSON.parse(raw);
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
     if (Date.now() - ts > ninetyDaysMs) return null;
-    return gclid;
+    return { gclid, refId };
   } catch {
     return null;
   }
@@ -54,16 +54,15 @@ const getStoredGclid = (): string | null => {
 
 // Arma el link de WhatsApp agregando el número de consulta con fecha y hora
 const buildWhatsAppUrl = (baseText: string = ''): string => {
-  const gclid = getStoredGclid();
+  const stored = getStoredGclid();
   let text = baseText;
-  if (gclid) {
-    const ref = gclid.slice(-8);
+  if (stored) {
     const now = new Date();
     const fecha = now.toLocaleDateString('es-UY');
     const hora = now.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
     text = text
-      ? `${text}\n\nN° de consulta: ${ref}\nFecha: ${fecha} ${hora}`
-      : `N° de consulta: ${ref}\nFecha: ${fecha} ${hora}`;
+      ? `${text}\n\nN° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`
+      : `N° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`;
   }
   const query = text ? `?text=${encodeURIComponent(text)}` : '';
   return `https://wa.me/59891418114${query}`;

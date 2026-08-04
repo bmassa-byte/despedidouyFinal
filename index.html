@@ -23,22 +23,16 @@
     </script>
 
     <!-- Guarda el GCLID para atribución -->
-    <script>
-      (function () {
-        var params = new URLSearchParams(window.location.search);
-        var gclid = params.get('gclid');
-
-        if (gclid) {
-          localStorage.setItem(
-            'gclid_data',
-            JSON.stringify({
-              gclid: gclid,
-              ts: Date.now()
-            })
-          );
-        }
-      })();
-    </script>
+   <script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var gclid = params.get('gclid');
+  if (gclid) {
+    var refId = Math.floor(10000000 + Math.random() * 90000000).toString();
+    localStorage.setItem('gclid_data', JSON.stringify({ gclid: gclid, ts: Date.now(), refId: refId }));
+  }
+})();
+</script>
   </head>
 
   <body>

@@ -38,6 +38,28 @@ export const trackConversion = () => {
     });
   }
 };
+
+// Envía el refId y el GCLID a tu Google Sheet en segundo plano
+const trackGclidToSheet = (refId: string, gclid: string) => {
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
+
+  try {
+    const payload = JSON.stringify({ refId, gclid });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(GOOGLE_SCRIPT_URL, payload);
+    } else {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload
+      });
+    }
+  } catch (e) {
+    console.error('Error enviando tracking:', e);
+  }
+};
+
 // Recupera el GCLID guardado y su número de referencia (válido por 90 días)
 const getStoredGclid = (): { gclid: string; refId: string } | null => {
   try {
@@ -46,7 +68,11 @@ const getStoredGclid = (): { gclid: string; refId: string } | null => {
     const { gclid, ts, refId } = JSON.parse(raw);
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
     if (Date.now() - ts > ninetyDaysMs) return null;
-    return { gclid, refId };
+
+    // Resguardo por si existía un registro previo sin refId
+    const safeRefId = refId || Math.floor(10000000 + Math.random() * 90000000).toString();
+
+    return { gclid, refId: safeRefId };
   } catch {
     return null;
   }
@@ -57,6 +83,9 @@ const buildWhatsAppUrl = (baseText: string = ''): string => {
   const stored = getStoredGclid();
   let text = baseText;
   if (stored) {
+    // Guarda silenciosamente en Google Sheet la relación refId <-> gclid
+    trackGclidToSheet(stored.refId, stored.gclid);
+
     const now = new Date();
     const fecha = now.toLocaleDateString('es-UY');
     const hora = now.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });

@@ -60,15 +60,15 @@ const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', a
   }
 };
 
-// Recupera el GCLID guardado, número de referencia, campaña y palabra clave (válido por 90 días)
-const getStoredGclid = (): { gclid: string; refId: string; campana: string; kw: string } | null => {
+// Recupera el GCLID guardado, número de referencia, campaña, anuncio y palabra clave (válido por 90 días)
+const getStoredGclid = (): { gclid: string; refId: string; campana: string; anuncio: string; kw: string } | null => {
   try {
     const raw = localStorage.getItem('gclid_data');
     if (!raw) return null;
-    const { gclid, ts, refId, campana, kw } = JSON.parse(raw);
+    const { gclid, ts, refId, campana, anuncio, kw } = JSON.parse(raw);
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
     if (Date.now() - ts > ninetyDaysMs) return null;
-
+    
     // Resguardo por si existía un registro previo sin refId
     const safeRefId = refId || Math.floor(10000000 + Math.random() * 90000000).toString();
 

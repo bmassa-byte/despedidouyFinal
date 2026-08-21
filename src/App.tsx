@@ -132,7 +132,19 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const campana = params.get('utm_campaign');
+  const kw = params.get('utm_term');
 
+  if (campana) sessionStorage.setItem('utm_campaign', campana);
+  if (kw) sessionStorage.setItem('utm_term', kw);
+
+  // Limpia la barra de direcciones dejando solo despedido.uy
+  if (window.location.search) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}, []);
   return (
     <nav className={cn(
       "fixed top-0 w-full z-50 transition-all duration-300",

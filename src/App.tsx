@@ -128,17 +128,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   const campana = params.get('utm_campaign');
+  const anuncio = params.get('utm_content');
   const kw = params.get('utm_term');
 
   if (campana) sessionStorage.setItem('utm_campaign', campana);
+  if (anuncio) sessionStorage.setItem('utm_content', anuncio);
   if (kw) sessionStorage.setItem('utm_term', kw);
 
   // Limpia la barra de direcciones dejando solo despedido.uy

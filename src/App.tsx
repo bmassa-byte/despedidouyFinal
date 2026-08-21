@@ -88,7 +88,6 @@ const buildWhatsAppUrl = (baseText: string = ''): string => {
   const stored = getStoredGclid();
   let text = baseText;
   if (stored) {
-    // Guarda silenciosamente en Google Sheet la relación refId <-> gclid <-> campana <-> anuncio <-> kw
     trackGclidToSheet(stored.refId, stored.gclid, stored.campana, stored.anuncio, stored.kw);
 
     const now = new Date();

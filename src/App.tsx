@@ -39,15 +39,6 @@ export const trackConversion = () => {
   }
 };
 
-// Función para registrar conversiones en Google Ads
-export const trackConversion = () => {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'conversion', {
-      'send_to': 'AW-16641762776/URi1CK-Q04IaENjLtP89'
-    });
-  }
-};
-
 // Envía los 5 datos (refId, gclid, campana, anuncio, kw) a Google Sheets
 const trackGclidToSheet = (
   refId: string, 

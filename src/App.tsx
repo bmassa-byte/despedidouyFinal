@@ -39,12 +39,12 @@ export const trackConversion = () => {
   }
 };
 
-// Envía el refId y el GCLID a tu Google Sheet en segundo plano
-const trackGclidToSheet = (refId: string, gclid: string) => {
+// Envía el refId, GCLID, campaña y palabra clave a tu Google Sheet en segundo plano
+const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', kw: string = '') => {
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
 
   try {
-    const payload = JSON.stringify({ refId, gclid });
+    const payload = JSON.stringify({ refId, gclid, campana, kw });
     if (navigator.sendBeacon) {
       navigator.sendBeacon(GOOGLE_SCRIPT_URL, payload);
     } else {
@@ -75,8 +75,8 @@ const getStoredGclid = (): { gclid: string; refId: string; campana: string; kw: 
     return { 
       gclid: gclid || '', 
       refId: safeRefId, 
-      campana: campana || '', 
-      kw: kw || '' 
+      campana: campana || sessionStorage.getItem('utm_campaign') || '', 
+      kw: kw || sessionStorage.getItem('utm_term') || '' 
     };
   } catch {
     return null;
@@ -88,8 +88,8 @@ const buildWhatsAppUrl = (baseText: string = ''): string => {
   const stored = getStoredGclid();
   let text = baseText;
   if (stored) {
-    // Guarda silenciosamente en Google Sheet la relación refId <-> gclid
-    trackGclidToSheet(stored.refId, stored.gclid);
+    // Guarda silenciosamente en Google Sheet la relación refId <-> gclid <-> campana <-> kw
+    trackGclidToSheet(stored.refId, stored.gclid, stored.campana, stored.kw);
 
     const now = new Date();
     const fecha = now.toLocaleDateString('es-UY');

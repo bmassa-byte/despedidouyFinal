@@ -39,12 +39,27 @@ export const trackConversion = () => {
   }
 };
 
-// Envía el refId, GCLID, campaña, anuncio y palabra clave a tu Google Sheet en segundo plano
-const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', anuncio: string = '', kw: string = '') => {
+// Función para registrar conversiones en Google Ads
+export const trackConversion = () => {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'conversion', {
+      'send_to': 'AW-16641762776/URi1CK-Q04IaENjLtP89'
+    });
+  }
+};
+
+// Envía los 5 datos (refId, gclid, campana, anuncio, kw) a Google Sheets
+const trackGclidToSheet = (
+  refId: string, 
+  gclid: string, 
+  campana: string = '', 
+  anuncio: string = '', 
+  kw: string = ''
+) => {
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
 
   try {
-   const payload = JSON.stringify({ refId, gclid, campana, anuncio, kw });
+    const payload = JSON.stringify({ refId, gclid, campana, anuncio, kw });
     if (navigator.sendBeacon) {
       navigator.sendBeacon(GOOGLE_SCRIPT_URL, payload);
     } else {
@@ -60,53 +75,61 @@ const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', a
   }
 };
 
-// Recupera el GCLID guardado, número de referencia, campaña, anuncio y palabra clave (válido por 90 días)
+// Lee los datos guardados o los captura directamente de la URL si faltan
 const getStoredGclid = (): { gclid: string; refId: string; campana: string; anuncio: string; kw: string } | null => {
   try {
     const raw = localStorage.getItem('gclid_data');
     const urlParams = new URLSearchParams(window.location.search);
-    
     const parsed = raw ? JSON.parse(raw) : {};
-    
+
     const gclid = parsed.gclid || urlParams.get('gclid') || '';
     if (!gclid) return null;
 
     const ts = parsed.ts || Date.now();
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
     if (Date.now() - ts > ninetyDaysMs) return null;
-    
+
     const safeRefId = parsed.refId || Math.floor(10000000 + Math.random() * 90000000).toString();
 
-    return { 
-      gclid: gclid, 
-      refId: safeRefId, 
-      campana: parsed.campana || urlParams.get('utm_campaign') || '', 
-      anuncio: parsed.anuncio || urlParams.get('utm_content') || '', 
-      kw: parsed.kw || urlParams.get('utm_term') || '' 
+    return {
+      gclid: gclid,
+      refId: safeRefId,
+      campana: parsed.campana || urlParams.get('utm_campaign') || '',
+      anuncio: parsed.anuncio || urlParams.get('utm_content') || '',
+      kw: parsed.kw || urlParams.get('utm_term') || ''
     };
   } catch {
     return null;
   }
 };
 
-// Arma el link de WhatsApp agregando el número de consulta con fecha y hora
+// Arma el enlace de WhatsApp y dispara el envío a la planilla
 const buildWhatsAppUrl = (baseText: string = ''): string => {
   const stored = getStoredGclid();
   let text = baseText;
+
   if (stored) {
-    trackGclidToSheet(stored.refId, stored.gclid, stored.campana, stored.anuncio, stored.kw);
+    // Se pasan exactamente los 5 parámetros en orden
+    trackGclidToSheet(
+      stored.refId, 
+      stored.gclid, 
+      stored.campana, 
+      stored.anuncio, 
+      stored.kw
+    );
 
     const now = new Date();
     const fecha = now.toLocaleDateString('es-UY');
     const hora = now.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
+
     text = text
       ? `${text}\n\nN° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`
       : `N° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`;
   }
+
   const query = text ? `?text=${encodeURIComponent(text)}` : '';
   return `https://wa.me/59891418114${query}`;
 };
-
 // Abre WhatsApp: registra conversión y agrega la referencia
 const openWhatsApp = (baseText: string = '') => {
   trackConversion();

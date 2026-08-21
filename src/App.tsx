@@ -39,9 +39,8 @@ export const trackConversion = () => {
   }
 };
 
-// Envía el refId, GCLID, campaña y palabra clave a tu Google Sheet en segundo plano
-// Envía el refId, GCLID, campaña y palabra clave a tu Google Sheet en segundo plano
-const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', kw: string = '') => {
+// Envía el refId, GCLID, campaña, anuncio y palabra clave a tu Google Sheet en segundo plano
+const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', anuncio: string = '', kw: string = '') => {
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
 
   try {

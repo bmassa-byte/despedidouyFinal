@@ -76,8 +76,8 @@ const getStoredGclid = (): { gclid: string; refId: string; campana: string; anun
       gclid: gclid || '', 
       refId: safeRefId, 
       campana: campana || sessionStorage.getItem('utm_campaign') || '', 
-      kw: kw || sessionStorage.getItem('utm_term') || '' 
-    };
+      anuncio: anuncio || sessionStorage.getItem('utm_content') || '', 
+      kw: kw || sessionStorage.getItem('utm_term') || ''
   } catch {
     return null;
   }

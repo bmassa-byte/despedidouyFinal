@@ -44,7 +44,7 @@ const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', a
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
 
   try {
-    const payload = JSON.stringify({ refId, gclid, campana, kw });
+   const payload = JSON.stringify({ refId, gclid, campana, anuncio, kw });
     if (navigator.sendBeacon) {
       navigator.sendBeacon(GOOGLE_SCRIPT_URL, payload);
     } else {

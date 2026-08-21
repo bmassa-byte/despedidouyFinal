@@ -22,19 +22,24 @@
 (function() {
   var params = new URLSearchParams(window.location.search);
   var gclid = params.get('gclid');
-  if (gclid) {
-    var refId = Math.floor(10000000 + Math.random() * 90000000).toString();
-    var campana = params.get('utm_campaign') || '';
-    var anuncio = params.get('utm_content') || '';
-    var kw = params.get('utm_term') || '';
+  var campana = params.get('utm_campaign') || '';
+  var anuncio = params.get('utm_content') || '';
+  var kw = params.get('utm_term') || '';
+
+  // Si viene un gclid nuevo O si vienen UTMs, guardamos/actualizamos el registro
+  if (gclid || campana || anuncio || kw) {
+    var raw = localStorage.getItem('gclid_data');
+    var existing = raw ? JSON.parse(raw) : {};
+    
+    var refId = existing.refId || Math.floor(10000000 + Math.random() * 90000000).toString();
 
     localStorage.setItem('gclid_data', JSON.stringify({ 
-      gclid: gclid, 
+      gclid: gclid || existing.gclid || '', 
       ts: Date.now(), 
       refId: refId,
-      campana: campana,
-      anuncio: anuncio,
-      kw: kw
+      campana: campana || existing.campana || '',
+      anuncio: anuncio || existing.anuncio || '',
+      kw: kw || existing.kw || ''
     }));
   }
 })();

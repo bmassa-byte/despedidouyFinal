@@ -17,14 +17,25 @@
       gtag('js', new Date());
       gtag('config', 'AW-16641762776');
     </script>
-    <!-- Guarda el GCLID para atribución -->
-   <script>
+   <!-- Guarda el GCLID y parámetros UTM para atribución -->
+<script>
 (function() {
   var params = new URLSearchParams(window.location.search);
   var gclid = params.get('gclid');
   if (gclid) {
     var refId = Math.floor(10000000 + Math.random() * 90000000).toString();
-    localStorage.setItem('gclid_data', JSON.stringify({ gclid: gclid, ts: Date.now(), refId: refId }));
+    var campana = params.get('utm_campaign') || '';
+    var anuncio = params.get('utm_content') || '';
+    var kw = params.get('utm_term') || '';
+
+    localStorage.setItem('gclid_data', JSON.stringify({ 
+      gclid: gclid, 
+      ts: Date.now(), 
+      refId: refId,
+      campana: campana,
+      anuncio: anuncio,
+      kw: kw
+    }));
   }
 })();
 </script>

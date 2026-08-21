@@ -64,21 +64,26 @@ const trackGclidToSheet = (refId: string, gclid: string, campana: string = '', a
 const getStoredGclid = (): { gclid: string; refId: string; campana: string; anuncio: string; kw: string } | null => {
   try {
     const raw = localStorage.getItem('gclid_data');
-    if (!raw) return null;
-    const { gclid, ts, refId, campana, anuncio, kw } = JSON.parse(raw);
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const parsed = raw ? JSON.parse(raw) : {};
+    
+    const gclid = parsed.gclid || urlParams.get('gclid') || '';
+    if (!gclid) return null;
+
+    const ts = parsed.ts || Date.now();
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
     if (Date.now() - ts > ninetyDaysMs) return null;
     
-    // Resguardo por si existía un registro previo sin refId
-    const safeRefId = refId || Math.floor(10000000 + Math.random() * 90000000).toString();
+    const safeRefId = parsed.refId || Math.floor(10000000 + Math.random() * 90000000).toString();
 
     return { 
-      gclid: gclid || '', 
+      gclid: gclid, 
       refId: safeRefId, 
-      campana: campana || sessionStorage.getItem('utm_campaign') || '', 
-      anuncio: anuncio || sessionStorage.getItem('utm_content') || '', 
-      kw: kw || sessionStorage.getItem('utm_term') || ''
-  };
+      campana: parsed.campana || urlParams.get('utm_campaign') || '', 
+      anuncio: parsed.anuncio || urlParams.get('utm_content') || '', 
+      kw: parsed.kw || urlParams.get('utm_term') || '' 
+    };
   } catch {
     return null;
   }

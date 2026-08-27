@@ -3,58 +3,175 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>DespedidoUy - Abogados Laborales</title>
+
     <!-- Google tag (gtag.js) -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=AW-16641762776"
     ></script>
+
     <script>
       window.dataLayer = window.dataLayer || [];
+
       function gtag() {
         dataLayer.push(arguments);
       }
+
       gtag('js', new Date());
       gtag('config', 'AW-16641762776');
     </script>
-   <!-- Guarda el GCLID y parámetros UTM para atribución -->
-<script>
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  var gclid = params.get('gclid');
-  var campana = params.get('utm_campaign') || '';
-  var anuncio = params.get('utm_content') || '';
-  var kw = params.get('utm_term') || '';
 
-  // Si viene un gclid nuevo O si vienen UTMs, guardamos/actualizamos el registro
-  if (gclid || campana || anuncio || kw) {
-    var raw = localStorage.getItem('gclid_data');
-    var existing = raw ? JSON.parse(raw) : {};
-    
-    var refId = existing.refId || Math.floor(10000000 + Math.random() * 90000000).toString();
+    <!-- =========================================================
+         ATRIBUCIÓN GOOGLE ADS
+         Guarda:
+         - GCLID
+         - ID de campaña
+         - ID del anuncio
+         - Palabra clave
+         - Número de consulta
+         ========================================================= -->
+    <script>
+      (function () {
+        try {
+          // Lee los parámetros que llegan en la URL
+          const params = new URLSearchParams(window.location.search);
 
-    localStorage.setItem('gclid_data', JSON.stringify({ 
-      gclid: gclid || existing.gclid || '', 
-      ts: Date.now(), 
-      refId: refId,
-      campana: campana || existing.campana || '',
-      anuncio: anuncio || existing.anuncio || '',
-      kw: kw || existing.kw || ''
-    }));
-  }
-})();
-</script>
+          // GCLID generado automáticamente por Google Ads
+          const gclid = params.get('gclid') || '';
+
+          // Campaña:
+          // acepta tanto "campaignid" como el antiguo "utm_campaign"
+          const campana =
+            params.get('campaignid') ||
+            params.get('utm_campaign') ||
+            '';
+
+          // Anuncio:
+          // acepta tanto "creative" como el antiguo "utm_content"
+          const anuncio =
+            params.get('creative') ||
+            params.get('utm_content') ||
+            '';
+
+          // Palabra clave:
+          // acepta tanto "keyword" como el antiguo "utm_term"
+          const kw =
+            params.get('keyword') ||
+            params.get('utm_term') ||
+            '';
+
+          // Recuperamos datos anteriores, si existen
+          const raw = localStorage.getItem('gclid_data');
+
+          let existing = {};
+
+          if (raw) {
+            try {
+              existing = JSON.parse(raw);
+            } catch (e) {
+              console.warn(
+                'No se pudieron leer los datos anteriores de Google Ads:',
+                e
+              );
+            }
+          }
+
+          // Solo actualizamos localStorage cuando realmente
+          // llega información de atribución en la URL
+          if (gclid || campana || anuncio || kw) {
+
+            // Conservamos el mismo número de consulta si ya existe.
+            // Si no existe, generamos uno nuevo de 8 dígitos.
+            const refId =
+              existing.refId ||
+              Math.floor(
+                10000000 + Math.random() * 90000000
+              ).toString();
+
+            const data = {
+              // GCLID
+              gclid:
+                gclid ||
+                existing.gclid ||
+                '',
+
+              // Fecha/hora en la que se actualizaron los datos
+              ts: Date.now(),
+
+              // Número de consulta
+              refId: refId,
+
+              // ID de campaña
+              campana:
+                campana ||
+                existing.campana ||
+                '',
+
+              // ID del anuncio
+              anuncio:
+                anuncio ||
+                existing.anuncio ||
+                '',
+
+              // Palabra clave
+              kw:
+                kw ||
+                existing.kw ||
+                ''
+            };
+
+            // Guardamos todo junto
+            localStorage.setItem(
+              'gclid_data',
+              JSON.stringify(data)
+            );
+
+            // Esto nos servirá para hacer pruebas
+            // desde la consola del navegador
+            console.log(
+              'Datos Google Ads guardados:',
+              data
+            );
+          }
+
+        } catch (error) {
+          console.error(
+            'Error guardando atribución Google Ads:',
+            error
+          );
+        }
+      })();
+    </script>
+
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "y0zn3rvhgg");
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){
+          (c[a].q=c[a].q||[]).push(arguments)
+        };
+
+        t=l.createElement(r);
+        t.async=1;
+        t.src="https://www.clarity.ms/tag/"+i;
+
+        y=l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t,y);
+
+      })(window, document, "clarity", "script", "y0zn3rvhgg");
     </script>
+
   </head>
+
   <body>
+
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+    <script
+      type="module"
+      src="/src/main.tsx"
+    ></script>
+
   </body>
 </html>

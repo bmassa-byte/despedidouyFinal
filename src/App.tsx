@@ -41,24 +41,46 @@ export const trackConversion = () => {
 
 // Envía los 5 datos (refId, gclid, campana, anuncio, kw) a Google Sheets
 const trackGclidToSheet = (
-  refId: string, 
-  gclid: string, 
-  campana: string = '', 
-  anuncio: string = '', 
+  refId: string,
+  gclid: string,
+  campana: string = '',
+  anuncio: string = '',
   kw: string = ''
 ) => {
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
+  const GOOGLE_SCRIPT_URL =
+    'https://script.google.com/macros/s/AKfycbxZnoYl1KnSlGvqOkn7S8e5ykPnw6KV-gErIllJ_nJT69HBO63EXQESrp_qsd_vV8w/exec';
 
   try {
-    const payload = JSON.stringify({ refId, gclid, campana, anuncio, kw });
+    const payload = JSON.stringify({
+      refId,
+      gclid,
+      campana,
+      anuncio,
+      kw
+    });
+
+    console.log('Enviando a Google Sheets:', {
+      refId,
+      gclid,
+      campana,
+      anuncio,
+      kw
+    });
+
     if (navigator.sendBeacon) {
-      navigator.sendBeacon(GOOGLE_SCRIPT_URL, payload);
+      navigator.sendBeacon(
+        GOOGLE_SCRIPT_URL,
+        new Blob([payload], { type: 'text/plain;charset=UTF-8' })
+      );
     } else {
       fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8'
+        },
+        body: payload,
+        keepalive: true
       });
     }
   } catch (e) {
@@ -66,65 +88,173 @@ const trackGclidToSheet = (
   }
 };
 
-// Lee los datos guardados o los captura directamente de la URL si faltan
-const getStoredGclid = (): { gclid: string; refId: string; campana: string; anuncio: string; kw: string } | null => {
+
+// Lee los datos de atribución guardados por index.html.
+// Como respaldo, también intenta leerlos directamente desde la URL.
+const getStoredGclid = (): {
+  gclid: string;
+  refId: string;
+  campana: string;
+  anuncio: string;
+  kw: string;
+} | null => {
   try {
     const raw = localStorage.getItem('gclid_data');
     const urlParams = new URLSearchParams(window.location.search);
-    const parsed = raw ? JSON.parse(raw) : {};
 
-    const gclid = parsed.gclid || urlParams.get('gclid') || '';
-    if (!gclid) return null;
+    let parsed: any = {};
 
+    if (raw) {
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        console.warn('No se pudo leer gclid_data:', e);
+      }
+    }
+
+    // GCLID
+    const gclid =
+      parsed.gclid ||
+      urlParams.get('gclid') ||
+      '';
+
+    // Si no existe GCLID, no registramos una consulta de Google Ads
+    if (!gclid) {
+      return null;
+    }
+
+    // Validez máxima del dato: 90 días
     const ts = parsed.ts || Date.now();
     const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
-    if (Date.now() - ts > ninetyDaysMs) return null;
 
-    const safeRefId = parsed.refId || Math.floor(10000000 + Math.random() * 90000000).toString();
+    if (Date.now() - ts > ninetyDaysMs) {
+      return null;
+    }
 
-    return {
-      gclid: gclid,
+    // Número único de consulta
+    const safeRefId =
+      parsed.refId ||
+      Math.floor(
+        10000000 + Math.random() * 90000000
+      ).toString();
+
+    // Campaña
+    const campana =
+      parsed.campana ||
+      urlParams.get('campaignid') ||
+      urlParams.get('utm_campaign') ||
+      '';
+
+    // Anuncio
+    const anuncio =
+      parsed.anuncio ||
+      urlParams.get('creative') ||
+      urlParams.get('utm_content') ||
+      '';
+
+    // Palabra clave
+    const kw =
+      parsed.kw ||
+      urlParams.get('keyword') ||
+      urlParams.get('utm_term') ||
+      '';
+
+    const result = {
+      gclid,
       refId: safeRefId,
-      campana: parsed.campana || urlParams.get('utm_campaign') || '',
-      anuncio: parsed.anuncio || urlParams.get('utm_content') || '',
-      kw: parsed.kw || urlParams.get('utm_term') || ''
+      campana,
+      anuncio,
+      kw
     };
-  } catch {
+
+    // Guarda nuevamente los datos completos por seguridad
+    localStorage.setItem(
+      'gclid_data',
+      JSON.stringify({
+        ...result,
+        ts
+      })
+    );
+
+    console.log('Datos de atribución recuperados:', result);
+
+    return result;
+
+  } catch (e) {
+    console.error(
+      'Error recuperando datos de atribución:',
+      e
+    );
+
     return null;
   }
 };
 
-// Arma el enlace de WhatsApp y dispara el envío a la planilla
-const buildWhatsAppUrl = (baseText: string = ''): string => {
+
+// Arma el enlace de WhatsApp y envía la atribución a Google Sheets
+const buildWhatsAppUrl = (
+  baseText: string = ''
+): string => {
+
   const stored = getStoredGclid();
+
   let text = baseText;
 
   if (stored) {
-    // Se pasan exactamente los 5 parámetros en orden
+
+    // Envía:
+    // 1. Número de consulta
+    // 2. GCLID
+    // 3. Campaña
+    // 4. Anuncio
+    // 5. Palabra clave
     trackGclidToSheet(
-      stored.refId, 
-      stored.gclid, 
-      stored.campana, 
-      stored.anuncio, 
+      stored.refId,
+      stored.gclid,
+      stored.campana,
+      stored.anuncio,
       stored.kw
     );
 
     const now = new Date();
-    const fecha = now.toLocaleDateString('es-UY');
-    const hora = now.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
+
+    const fecha = now.toLocaleDateString(
+      'es-UY'
+    );
+
+    const hora = now.toLocaleTimeString(
+      'es-UY',
+      {
+        hour: '2-digit',
+        minute: '2-digit'
+      }
+    );
 
     text = text
       ? `${text}\n\nN° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`
       : `N° de consulta: ${stored.refId}\nFecha: ${fecha} ${hora}`;
   }
 
-  const query = text ? `?text=${encodeURIComponent(text)}` : '';
+  const query = text
+    ? `?text=${encodeURIComponent(text)}`
+    : '';
+
   return `https://wa.me/59891418114${query}`;
 };
-// Abre WhatsApp: registra conversión y agrega la referencia
-const openWhatsApp = (baseText: string = '') => {
+
+
+// Abre WhatsApp, registra la conversión
+// y envía los datos de atribución.
+const openWhatsApp = (
+  baseText: string = ''
+) => {
+
   trackConversion();
-  window.open(buildWhatsAppUrl(baseText), '_blank');
+
+  window.open(
+    buildWhatsAppUrl(baseText),
+    '_blank'
+  );
 };
 
 // --- Components ---

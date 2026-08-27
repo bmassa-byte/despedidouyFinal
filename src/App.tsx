@@ -277,18 +277,17 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
 useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  const campana = params.get('utm_campaign');
-  const anuncio = params.get('utm_content');
-  const kw = params.get('utm_term');
+  // El index.html ya se encarga de capturar y guardar
+  // gclid, campaignid, creative y keyword en localStorage.
 
-  if (campana) sessionStorage.setItem('utm_campaign', campana);
-  if (anuncio) sessionStorage.setItem('utm_content', anuncio);
-  if (kw) sessionStorage.setItem('utm_term', kw);
-
-  // Limpia la barra de direcciones dejando solo despedido.uy
+  // Acá únicamente limpiamos la URL visualmente,
+  // una vez que React ya cargó.
   if (window.location.search) {
-    window.history.replaceState({}, document.title, window.location.pathname);
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
 }, []);
   return (

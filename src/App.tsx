@@ -443,10 +443,10 @@ const Hero = () => {
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en menos de 24hs</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8">
-            ¿Te <span className="text-accent italic">despidieron?</span>
+            ¿Tenés un problema <span className="text-accent italic">laboral?</span>
           </h1>
           <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
-            Somos abogados laborales especializados en despidos. Revisamos todo lo que te deben al salir: indemnización, horas extras, trabajo en negro y diferencias de sueldo. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
+            Te ayudamos a reclamar lo que te corresponde. Sin vueltas, sin letra chica y con lenguaje claro. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5">

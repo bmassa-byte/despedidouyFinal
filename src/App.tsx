@@ -438,46 +438,6 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Solo en celulares: elegí tu situación */}
-          <div className="md:hidden mb-10">
-            <h2 className="text-3xl font-bold text-white mb-5">¿Qué te pasó?</h2>
-            <div className="flex flex-col gap-3">
-              <a
-                href="https://wa.me/59891418114"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  openWhatsApp('Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso.');
-                }}
-                className="w-full bg-accent hover:bg-accent/90 text-white text-xl font-bold py-5 px-6 rounded-2xl shadow-2xl shadow-accent/30 transition-all active:scale-95 flex items-center justify-center gap-3"
-              >
-                <WhatsAppIcon size={24} />
-                Me despidieron
-              </a>
-              {[
-                { label: 'Trabajo en negro', text: 'Hola, llegué desde DespedidoUy. Trabajo en negro y quiero consultar por mi situación.' },
-                { label: 'Tuve un accidente', text: 'Hola, llegué desde DespedidoUy. Tuve un accidente laboral y quiero consultar por mi caso.' },
-                { label: 'Me deben sueldo u horas extras', text: 'Hola, llegué desde DespedidoUy. Me deben sueldo u horas extras y quiero consultar por mi caso.' }
-              ].map((op) => (
-                <a
-                  key={op.label}
-                  href="https://wa.me/59891418114"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openWhatsApp(op.text);
-                  }}
-                  className="w-full bg-white/10 border border-white/20 text-white text-base font-semibold py-3.5 px-5 rounded-xl hover:bg-white/20 transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  <WhatsAppIcon size={18} />
-                  {op.label}
-                </a>
-              ))}
-            </div>
-          </div>
-
           <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-8">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en menos de 24hs</span>
@@ -588,7 +548,8 @@ const Services = () => {
       subtitle: "Podés reclamar si:",
       items: ["No te pagaron la indemnización que corresponde", "Te hicieron firmar renuncia bajo presión", "Despido por enfermedad o embarazo", "Querés darte por despedido indirectamente."],
       icon: <AlertCircle className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
     },
     {
       title: "Accidentes Laborales",
@@ -596,7 +557,8 @@ const Services = () => {
       subtitle: "PODÉS RECLAMAR:",
       items: ["Lesiones durante la jornada", "Problemas al reintegrarte.", "Indemnización deficiente", "Falta de atención médica"],
       icon: <TrendingUp className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Tuve un accidente laboral y quiero consultar por mi caso."
     },
     {
       title: "Sueldos y Deudas",
@@ -604,7 +566,8 @@ const Services = () => {
       subtitle: "PODÉS RECLAMAR:",
       items: ["Horas extras impagas", "Salario por debajo del mínimo.", "Diferencias salariales", "Otras Deudas Laborales"],
       icon: <Briefcase className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Me deben sueldo u horas extras y quiero consultar por mi caso."
     }
   ];
 
@@ -650,7 +613,7 @@ const Services = () => {
                 rel="noopener noreferrer"
                  onClick={(e) => {
   e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
+  openWhatsApp(s.whatsappText);
 }}
                 className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
               >

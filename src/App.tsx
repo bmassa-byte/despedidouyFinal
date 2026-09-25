@@ -23,8 +23,7 @@ import {
   ArrowRight,
   Calculator,
   DollarSign,
-  Calendar,
-  User
+  Calendar
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
@@ -290,6 +289,15 @@ useEffect(() => {
     );
   }
 }, []);
+
+  // Cambia la barra a fondo blanco con letras oscuras al bajar por la página.
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <nav className={cn(
       "fixed top-0 w-full z-50 transition-all duration-300",
@@ -435,10 +443,10 @@ const Hero = () => {
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en menos de 24hs</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8">
-            ¿Tenés un problema <span className="text-accent italic">laboral?</span>
+            ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
           <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
-            Te ayudamos a reclamar lo que te corresponde. Sin vueltas, sin letra chica y con lenguaje claro. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
+            Somos abogados laborales especializados en despidos. Revisamos todo lo que te deben al salir: indemnización, horas extras, trabajo en negro y diferencias de sueldo. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5">
@@ -452,7 +460,7 @@ const Hero = () => {
               }}
               className="bg-accent hover:bg-accent/90 text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-2xl shadow-accent/20 transition-all active:scale-95 flex items-center justify-center gap-3 group"
             >
-              Habla con un Abogado
+              Hablá con un Abogado
               <WhatsAppIcon size={20} />
             </a>
           </div>
@@ -538,9 +546,10 @@ const Services = () => {
       title: "Despidos",
       desc: "Defensa integral ante despidos.",
       subtitle: "Podés reclamar si:",
-      items: ["No te pagaron la indemnización que corresponde", "Te hicieron firmar renuncia bajo presión", "Despido por enfermedad o embarazo", "Quieres darte por despedido indirectamente."],
+      items: ["No te pagaron la indemnización que corresponde", "Te hicieron firmar renuncia bajo presión", "Despido por enfermedad o embarazo", "Querés darte por despedido indirectamente."],
       icon: <AlertCircle className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
     },
     {
       title: "Accidentes Laborales",
@@ -548,7 +557,8 @@ const Services = () => {
       subtitle: "PODÉS RECLAMAR:",
       items: ["Lesiones durante la jornada", "Problemas al reintegrarte.", "Indemnización deficiente", "Falta de atención médica"],
       icon: <TrendingUp className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Tuve un accidente laboral y quiero consultar por mi caso."
     },
     {
       title: "Sueldos y Deudas",
@@ -556,7 +566,8 @@ const Services = () => {
       subtitle: "PODÉS RECLAMAR:",
       items: ["Horas extras impagas", "Salario por debajo del mínimo.", "Diferencias salariales", "Otras Deudas Laborales"],
       icon: <Briefcase className="w-8 h-8 text-accent" />,
-      color: "bg-slate-900"
+      color: "bg-slate-900",
+      whatsappText: "Hola, llegué desde DespedidoUy. Me deben sueldo u horas extras y quiero consultar por mi caso."
     }
   ];
 
@@ -602,7 +613,7 @@ const Services = () => {
                 rel="noopener noreferrer"
                  onClick={(e) => {
   e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
+  openWhatsApp(s.whatsappText);
 }}
                 className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
               >
@@ -625,9 +636,7 @@ const CalculatorSection = () => {
     ingreso: '',
     egreso: '',
     diasLicencia: '',
-    motivo: 'Despido común',
-    nombre: '',
-    departamento: 'Montevideo'
+    motivo: 'Despido común'
   });
   const [resultado, setResultado] = useState({
     ipd: 0,
@@ -637,19 +646,14 @@ const CalculatorSection = () => {
 
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === 1) {
-      if (!formData.monto || !formData.ingreso || !formData.egreso || !formData.diasLicencia) return;
-      const fIngreso = new Date(formData.ingreso);
-      const fEgreso = new Date(formData.egreso);
-      if (fEgreso <= fIngreso) {
-        alert("La fecha de egreso debe ser posterior a la de ingreso.");
-        return;
-      }
-      setStep(2);
-    } else if (step === 2) {
-      if (!formData.nombre || !formData.departamento) return;
-      calculate();
+    if (!formData.monto || !formData.ingreso || !formData.egreso || !formData.diasLicencia) return;
+    const fIngreso = new Date(formData.ingreso);
+    const fEgreso = new Date(formData.egreso);
+    if (fEgreso <= fIngreso) {
+      alert("La fecha de egreso debe ser posterior a la de ingreso.");
+      return;
     }
+    calculate();
   };
 
   const calculate = () => {
@@ -716,12 +720,12 @@ const CalculatorSection = () => {
       rubrosSalariales: rubrosSalariales,
       total: ipd + rubrosSalariales
     });
-    setStep(3);
+    setStep(2);
   };
 
   const handleWhatsApp = () => {
     trackConversion();
-    const text = `Hola DespedidoUy. Usé la calculadora web.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nDepartamento: ${formData.departamento}\n\n*Mi Situación:*\nTipo: ${formData.tipo}\nMonto: $${formData.monto}\nIngreso: ${formData.ingreso}\nEgreso: ${formData.egreso}\nLicencia pendiente: ${formData.diasLicencia} días\nMotivo: ${formData.motivo}\n\n*Resultado estimado:* $${Math.round(resultado.total).toLocaleString('es-UY')}\n(IPD: $${Math.round(resultado.ipd).toLocaleString('es-UY')} | Rubros Salariales: $${Math.round(resultado.rubrosSalariales).toLocaleString('es-UY')})\n\nQuiero solicitar una consulta gratuita para analizar mi caso exacto.`;
+    const text = `Hola DespedidoUy. Usé la calculadora web.\n\n*Mi Situación:*\nTipo: ${formData.tipo}\nMonto: $${formData.monto}\nIngreso: ${formData.ingreso}\nEgreso: ${formData.egreso}\nLicencia pendiente: ${formData.diasLicencia} días\nMotivo: ${formData.motivo}\n\n*Resultado estimado:* $${Math.round(resultado.total).toLocaleString('es-UY')}\n(IPD: $${Math.round(resultado.ipd).toLocaleString('es-UY')} | Rubros Salariales: $${Math.round(resultado.rubrosSalariales).toLocaleString('es-UY')})\n\nQuiero solicitar una consulta gratuita para analizar mi caso exacto.`;
     window.open(buildWhatsAppUrl(text), '_blank');
   };
 
@@ -734,14 +738,13 @@ const CalculatorSection = () => {
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Herramienta Gratuita</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Calculadora de Indemnización</h2>
-          <p className="text-lg text-slate-600">Descubre un estimado de cuánto te corresponde.</p>
+          <p className="text-lg text-slate-600">Descubrí un estimado de cuánto te corresponde.</p>
         </div>
 
         <div className="bg-white rounded-[32px] shadow-xl border border-slate-100 overflow-hidden">
           <div className="flex border-b border-slate-100">
             <div className={cn("flex-1 py-3 sm:py-4 text-center text-xs sm:text-sm font-bold transition-colors", step >= 1 ? "bg-primary text-white" : "bg-slate-50 text-slate-400")}>1. Datos</div>
-            <div className={cn("flex-1 py-3 sm:py-4 text-center text-xs sm:text-sm font-bold transition-colors", step >= 2 ? "bg-primary text-white" : "bg-slate-50 text-slate-400")}>2. Contacto</div>
-            <div className={cn("flex-1 py-3 sm:py-4 text-center text-xs sm:text-sm font-bold transition-colors", step === 3 ? "bg-accent text-white" : "bg-slate-50 text-slate-400")}>3. Resultado</div>
+            <div className={cn("flex-1 py-3 sm:py-4 text-center text-xs sm:text-sm font-bold transition-colors", step === 2 ? "bg-accent text-white" : "bg-slate-50 text-slate-400")}>2. Resultado</div>
           </div>
 
           <div className="p-5 sm:p-8 md:p-12">
@@ -797,63 +800,12 @@ const CalculatorSection = () => {
                   </div>
                 </div>
                 <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-all flex items-center justify-center gap-2 mt-8">
-                  Siguiente Paso <ArrowRight size={20} />
+                  Ver mi Cálculo <ArrowRight size={20} />
                 </button>
               </motion.form>
             )}
 
             {step === 2 && (
-              <motion.form initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} onSubmit={handleNext} className="space-y-6">
-                <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-sm mb-6 flex items-start gap-3">
-                  <ShieldCheck className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <p>Para mostrarte el cálculo exacto y poder asesorarte, necesitamos tus datos de contacto. Tu información es 100% confidencial.</p>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Nombre Completo</label>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                    <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all" placeholder="Ej: Juan Pérez" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Departamento</label>
-                  <div className="relative">
-                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                    <select required value={formData.departamento} onChange={e => setFormData({...formData, departamento: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all appearance-none">
-                      <option value="Montevideo">Montevideo</option>
-                      <option value="Artigas">Artigas</option>
-                      <option value="Canelones">Canelones</option>
-                      <option value="Cerro Largo">Cerro Largo</option>
-                      <option value="Colonia">Colonia</option>
-                      <option value="Durazno">Durazno</option>
-                      <option value="Flores">Flores</option>
-                      <option value="Florida">Florida</option>
-                      <option value="Lavalleja">Lavalleja</option>
-                      <option value="Maldonado">Maldonado</option>
-                      <option value="Paysandú">Paysandú</option>
-                      <option value="Río Negro">Río Negro</option>
-                      <option value="Rivera">Rivera</option>
-                      <option value="Rocha">Rocha</option>
-                      <option value="Salto">Salto</option>
-                      <option value="San José">San José</option>
-                      <option value="Soriano">Soriano</option>
-                      <option value="Tacuarembó">Tacuarembó</option>
-                      <option value="Treinta y Tres">Treinta y Tres</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex gap-4 mt-8">
-                  <button type="button" onClick={() => setStep(1)} className="px-6 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-all">
-                    Volver
-                  </button>
-                  <button type="submit" className="flex-1 bg-accent text-white font-bold py-4 rounded-xl hover:bg-accent/90 transition-all shadow-lg shadow-accent/20">
-                    Ver mi Cálculo
-                  </button>
-                </div>
-              </motion.form>
-            )}
-
-            {step === 3 && (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center">
                 <p className="text-slate-500 font-bold uppercase tracking-widest mb-2 text-xs sm:text-sm">Monto Total Estimado</p>
                 <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-8 flex items-center justify-center gap-1 sm:gap-2">
@@ -953,9 +905,18 @@ const Process = () => {
               En DespedidoUy defendemos a quienes trabajan y sostienen el país. Nuestra misión es acompañarte con claridad y compromiso, para que puedas reclamar lo que te corresponde. Creemos en una abogacía cercana, rápida y humana.
             </p>
           </div>
-          <button className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap">
+          <a
+            href="https://wa.me/59891418114"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
+            }}
+            className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap"
+          >
             Hablá con un Abogado Ahora
-          </button>
+          </a>
         </div>
       </div>
     </section>
@@ -1024,7 +985,7 @@ const FAQ = () => {
     },
     {
       q: "¿Cómo se manejan los honorarios?",
-      a: "Trabajamos bajo la modalidad de 'Cuota Litis', lo que significa que nuestros honorarios son un porcentaje del resultado obtenido. Si tú no cobras, nosotros tampoco."
+      a: "Trabajamos bajo la modalidad de 'Cuota Litis', lo que significa que nuestros honorarios son un porcentaje del resultado obtenido. Si vos no cobrás, nosotros tampoco."
     },
     {
       q: "¿Cuánto tiempo tengo para reclamar un despido?",
@@ -1032,7 +993,7 @@ const FAQ = () => {
     },
     {
       q: "¿Qué pasa si trabajo 'en negro'?",
-      a: "Igualmente puedes realizar un reclamo laboral y adicionalmente ante el BPS por los aportes adeudados."
+      a: "Igualmente podés realizar un reclamo laboral y adicionalmente ante el BPS por los aportes adeudados."
     }
   ];
 
@@ -1079,7 +1040,7 @@ const LocationSection = () => {
           <div className="p-12 lg:w-1/2 text-white">
             <h2 className="text-3xl font-bold mb-6">Nuestra Oficina</h2>
             <p className="text-white/70 mb-8">
-              Ven a visitarnos para una atención personalizada. Estamos en una ubicación estratégica y accesible en el corazón de Montevideo.
+              Vení a visitarnos para una atención personalizada. Estamos en una ubicación estratégica y accesible en el corazón de Montevideo.
             </p>
             
             <div className="space-y-6">
@@ -1213,7 +1174,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">¿Hablamos de tu caso?</h2>
           <p className="text-xl text-white/70 mb-10">
-            Protege tus derechos con el respaldo de un equipo especializado.
+            Protegé tus derechos con el respaldo de un equipo especializado.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a 
@@ -1227,7 +1188,7 @@ export default function App() {
               className="bg-accent text-white text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-accent/90 transition-all active:scale-95 flex items-center justify-center gap-3"
             >
               <WhatsAppIcon size={24} />
-              Habla con un Abogado
+              Hablá con un Abogado
             </a>
             <a 
               href="tel:+59899039588"

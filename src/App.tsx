@@ -30,10 +30,12 @@ import { cn } from './lib/utils';
 import { GoogleGenAI } from "@google/genai";
 
 // Función para registrar conversiones en Google Ads
-export const trackConversion = () => {
+export const trackConversion = (
+  sendTo: string = 'AW-16641762776/URi1CK-Q04IaENjLtP89'
+) => {
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', 'conversion', {
-      'send_to': 'AW-16641762776/URi1CK-Q04IaENjLtP89'
+      'send_to': sendTo
     });
   }
 };

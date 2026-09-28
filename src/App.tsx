@@ -722,7 +722,8 @@ const CalculatorSection = () => {
       rubrosSalariales: rubrosSalariales,
       total: ipd + rubrosSalariales
     });
-    setStep(2);
+    (window as any).gtag?.('event', 'calculo_indemnizacion');
+setStep(2);
   };
 
   const handleWhatsApp = () => {

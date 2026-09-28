@@ -728,6 +728,7 @@ setStep(2);
 
   const handleWhatsApp = () => {
 trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
+    (window as any).gtag?.('event', 'click_whatsapp_calculadora');
     const text = `Hola DespedidoUy. Usé la calculadora web.\n\n*Mi Situación:*\nTipo: ${formData.tipo}\nMonto: $${formData.monto}\nIngreso: ${formData.ingreso}\nEgreso: ${formData.egreso}\nLicencia pendiente: ${formData.diasLicencia} días\nMotivo: ${formData.motivo}\n\n*Resultado estimado:* $${Math.round(resultado.total).toLocaleString('es-UY')}\n(IPD: $${Math.round(resultado.ipd).toLocaleString('es-UY')} | Rubros Salariales: $${Math.round(resultado.rubrosSalariales).toLocaleString('es-UY')})\n\nQuiero solicitar una consulta gratuita para analizar mi caso exacto.`;
     window.open(buildWhatsAppUrl(text), '_blank');
   };

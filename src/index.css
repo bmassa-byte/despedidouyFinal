@@ -19,3 +19,25 @@
   }
 }
 
+
+/* Testimonios: desplazamiento continuo automático.
+   La lista se duplica, así que al llegar a -50% el ciclo es idéntico al inicio. */
+@keyframes testimonios-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.testimonios-track {
+  animation: testimonios-marquee var(--marquee-duration, 60s) linear infinite;
+}
+
+.testimonios-track:hover,
+.testimonios-track[data-paused="true"] {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonios-track {
+    animation: none;
+  }
+}

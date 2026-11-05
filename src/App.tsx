@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Phone, 
   MessageSquare, 
@@ -11,7 +11,6 @@ import {
   ShieldCheck, 
   Clock, 
   Users, 
-  ChevronLeft,
   ChevronRight, 
   Star, 
   CheckCircle2, 
@@ -937,93 +936,60 @@ const Testimonials = () => {
     }
   ];
 
-  const trackRef = useRef<HTMLDivElement>(null);
+  // Se frena al tocar (en celular no existe el "hover") y retoma solo a los pocos segundos.
   const [paused, setPaused] = useState(false);
+  const resumeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Mueve el carrusel una tarjeta; al llegar al final vuelve al principio.
-  const scrollByCard = (dir: 1 | -1) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>('[data-card]');
-    if (!card) return;
-    const step = card.offsetWidth + 24; // 24px = gap-6
-    const max = el.scrollWidth - el.clientWidth;
-    if (dir === 1 && el.scrollLeft >= max - 4) {
-      el.scrollTo({ left: 0, behavior: 'smooth' });
-    } else if (dir === -1 && el.scrollLeft <= 4) {
-      el.scrollTo({ left: max, behavior: 'smooth' });
-    } else {
-      el.scrollBy({ left: dir * step, behavior: 'smooth' });
-    }
+  const pauseOnTouch = () => {
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), 4000);
   };
 
-  // Avance automático lento. Se frena al tocar o pasar el mouse,
-  // y no corre si la persona pidió menos movimiento en su dispositivo.
-  useEffect(() => {
-    if (paused) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => scrollByCard(1), 6000);
-    return () => clearInterval(id);
-  }, [paused]);
+  const renderCard = (t: (typeof testimonials)[number], key: string, hidden = false) => (
+    <div
+      key={key}
+      aria-hidden={hidden || undefined}
+      className={cn(
+        "flex-none w-[300px] sm:w-[400px] mr-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 relative",
+        hidden && "motion-reduce:hidden"
+      )}
+    >
+      <div className="flex text-accent mb-4">
+        {[...Array(t.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
+      </div>
+      <p className="text-slate-700 italic mb-6">"{t.text}"</p>
+      <div>
+        <p className="font-bold text-slate-900">{t.name}</p>
+        <p className="text-sm text-slate-500">{t.role}</p>
+      </div>
+      <div className="absolute top-8 right-8 text-slate-200">
+        <MessageSquare size={40} />
+      </div>
+    </div>
+  );
 
   return (
-    <section id="testimonios" className="py-16 bg-white">
+    <section id="testimonios" className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Lo que dicen nuestros clientes</h2>
           <p className="text-lg text-slate-600">La confianza de quienes ya defendimos es nuestro respaldo.</p>
         </div>
+      </div>
 
+      {/* Cinta que se desplaza sola. Con "reducir movimiento" activado queda quieta y se puede deslizar con el dedo. */}
+      <div
+        className="overflow-hidden motion-reduce:overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+        onTouchStart={pauseOnTouch}
+      >
         <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onTouchStart={() => setPaused(true)}
-          onFocus={() => setPaused(true)}
-          onBlur={() => setPaused(false)}
+          className="testimonios-track flex w-max"
+          data-paused={paused}
+          style={{ ['--marquee-duration' as any]: `${testimonials.length * 12}s` }}
         >
-          <div
-            ref={trackRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                data-card
-                className="flex-none snap-start w-[85%] md:w-[calc(50%-12px)] p-8 rounded-3xl bg-slate-50 border border-slate-100 relative"
-              >
-                <div className="flex text-accent mb-4">
-                  {[...Array(t.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
-                </div>
-                <p className="text-slate-700 italic mb-6">"{t.text}"</p>
-                <div>
-                  <p className="font-bold text-slate-900">{t.name}</p>
-                  <p className="text-sm text-slate-500">{t.role}</p>
-                </div>
-                <div className="absolute top-8 right-8 text-slate-200">
-                  <MessageSquare size={40} />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-center gap-3 mt-8">
-            <button
-              type="button"
-              onClick={() => scrollByCard(-1)}
-              aria-label="Testimonio anterior"
-              className="w-11 h-11 rounded-full border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary transition-colors flex items-center justify-center"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollByCard(1)}
-              aria-label="Testimonio siguiente"
-              className="w-11 h-11 rounded-full border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary transition-colors flex items-center justify-center"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+          {testimonials.map((t, i) => renderCard(t, `a-${i}`))}
+          {testimonials.map((t, i) => renderCard(t, `b-${i}`, true))}
         </div>
       </div>
     </section>

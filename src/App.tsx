@@ -951,7 +951,7 @@ const Testimonials = () => {
       key={key}
       aria-hidden={hidden || undefined}
       className={cn(
-        "flex-none w-[300px] sm:w-[400px] mr-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 relative",
+        "flex-none flex flex-col w-[300px] sm:w-[400px] mr-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 relative",
         hidden && "motion-reduce:hidden"
       )}
     >
@@ -959,7 +959,7 @@ const Testimonials = () => {
         {[...Array(t.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
       </div>
       <p className="text-slate-700 italic mb-6">"{t.text}"</p>
-      <div>
+      <div className="mt-auto">
         <p className="font-bold text-slate-900">{t.name}</p>
         <p className="text-sm text-slate-500">{t.role}</p>
       </div>

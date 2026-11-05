@@ -922,6 +922,18 @@ const Testimonials = () => {
       role: "Operario",
       text: "Los contacté para firmar un acuerdo por mi despido. Recomiendo por su rapidez y seriedad.",
       rating: 5
+    },
+    {
+      name: "Carlos R.",
+      role: "Ex-empleado de Comercio",
+      text: "Después de 8 años trabajando, me despidieron sin darme una explicación. Me asesoraron desde el primer momento y conseguimos una indemnización justa. Muy agradecido por la atención.",
+      rating: 5
+    },
+    {
+      name: "Andrea P.",
+      role: "Administrativa",
+      text: "Tenía dudas sobre si me correspondía cobrar algo después de mi despido. Me explicaron todo con claridad, se ocuparon del reclamo y logramos llegar a un buen acuerdo. Excelente atención.",
+      rating: 5
     }
   ];
 

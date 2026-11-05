@@ -334,7 +334,7 @@ useEffect(() => {
           ))}
           <a 
             href="tel:+59899039588"
-            onClick={trackConversion}
+            onClick={() => trackConversion()}
             className="bg-accent hover:bg-accent/90 text-primary font-bold px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
           >
             <Phone size={18} />
@@ -378,7 +378,7 @@ useEffect(() => {
               <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
                 <a 
                   href="tel:+59899039588"
-                  onClick={trackConversion}
+                  onClick={() => trackConversion()}
                   className="w-full bg-primary text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
                 >
                   <Phone size={20} />
@@ -1096,7 +1096,7 @@ const Footer = () => {
             </span>
           </div>
           <p className="text-slate-400 max-w-sm mb-6">
-            Especialistas en la defensa de los derechos del trabajador en Uruguay. Honestidad, compromiso y resultados.
+            Especialistas en despidos en Montevideo y Canelones. Honestidad, compromiso y resultados.
           </p>
           <div className="flex gap-4">
             <a 
@@ -1113,7 +1113,7 @@ const Footer = () => {
             </a>
             <a 
               href="tel:+59899039588"
-              onClick={trackConversion}
+              onClick={() => trackConversion()}
               className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-primary transition-all cursor-pointer"
             >
               <Phone size={20} />
@@ -1185,7 +1185,7 @@ export default function App() {
             </a>
             <a 
               href="tel:+59899039588"
-              onClick={trackConversion}
+              onClick={() => trackConversion()}
               className="bg-white/10 text-white border border-white/20 text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-white/20 transition-all active:scale-95 flex items-center justify-center gap-3"
             >
               <Phone size={24} />

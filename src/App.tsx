@@ -446,11 +446,15 @@ const Hero = () => {
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en el día</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8">
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6">
           ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
+          <div className="inline-flex items-center gap-3 bg-white text-primary font-bold text-base sm:text-lg px-5 py-3 rounded-2xl shadow-xl mb-6">
+            <ShieldCheck className="w-6 h-6 text-accent flex-shrink-0" />
+            Solo cobramos si vos cobrás
+          </div>
           <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
-            Te ayudamos a reclamar lo que te corresponde. Sin vueltas, sin letra chica y con lenguaje claro. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
+            Te decimos qué podés reclamar por tu despido. Sin vueltas, sin letra chica y con lenguaje claro.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5">
@@ -474,7 +478,7 @@ const Hero = () => {
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
               { label: "Respuesta a tu consulta", val: "En el día" },
-              { label: "Especializados en Derecho Laboral", val: "100%" },
+              { label: "Especialistas en despidos", val: "100%" },
             ].map((stat, i) => (
               <div key={i} className="relative pb-4">
                 <p className="text-3xl font-bold text-white mb-1">{stat.val}</p>

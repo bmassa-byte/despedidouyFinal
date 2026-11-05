@@ -642,7 +642,7 @@ trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
             <Calculator className="text-accent w-4 h-4" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Herramienta Gratuita</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Calculadora de Indemnización</h2>
+          <h2 className="text-xl min-[360px]:text-2xl min-[400px]:text-3xl md:text-5xl font-bold text-slate-900 mb-4 whitespace-nowrap">Calculadora de Indemnización</h2>
           <p className="text-lg text-slate-600">Descubrí un estimado de cuánto te corresponde.</p>
         </div>
 
@@ -1096,31 +1096,9 @@ const Footer = () => {
 };
 
 const FloatingCTA = () => {
-  // En celular se muestra recién al pasar el hero (ahí ya hay botones de WhatsApp
-  // y el flotante taparía el principal). En compu está siempre visible.
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const update = () => {
-      const hero = document.querySelector('section');
-      const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
-      setVisible(heroBottom < window.innerHeight * 0.6);
-    };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, []);
-
   return (
     <div
-      className={cn(
-        "fixed bottom-6 right-6 z-40 flex flex-col gap-3 transition-opacity duration-300",
-        !visible && "max-lg:opacity-0 max-lg:pointer-events-none"
-      )}
+      className="fixed bottom-6 right-6 z-40 flex flex-col gap-3"
     >
       <a 
         href="https://wa.me/59891418114"

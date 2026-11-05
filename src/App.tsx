@@ -302,13 +302,13 @@ useEffect(() => {
       "fixed top-0 w-full z-50 transition-all duration-300",
       scrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
     )}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="bg-primary p-1.5 rounded-lg">
-            <Scale className="text-white w-6 h-6" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="bg-primary p-1.5 rounded-lg max-[359px]:hidden">
+            <Scale className="text-white w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <span className={cn(
-            "font-serif text-2xl font-bold tracking-tight",
+            "font-serif text-xl max-[359px]:text-lg sm:text-2xl font-bold tracking-tight whitespace-nowrap",
             scrolled ? "text-primary" : "text-white"
           )}>
             Despedido<span className="text-accent">Uy</span>
@@ -316,11 +316,11 @@ useEffect(() => {
         </div>
 
         {/* Menú reducido: solo dos acciones, visibles también en celular */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <a
             href="#calculadora"
             className={cn(
-              "font-bold text-sm sm:text-base px-4 sm:px-6 py-2.5 rounded-full border-2 transition-colors",
+              "font-bold text-sm sm:text-base px-3.5 max-[359px]:px-3 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 transition-colors",
               scrolled
                 ? "border-primary text-primary hover:bg-primary hover:text-white"
                 : "border-white/70 text-white hover:bg-white hover:text-primary"
@@ -332,7 +332,7 @@ useEffect(() => {
             href="tel:+59899039588"
             onClick={() => trackConversion()}
             aria-label="Llamar ahora"
-            className="bg-accent hover:bg-accent/90 text-primary font-bold px-3.5 sm:px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
+            className="bg-accent hover:bg-accent/90 text-primary font-bold px-3 sm:px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
           >
             <Phone size={18} />
             <span className="hidden sm:inline">Llamar Ahora</span>
@@ -1107,8 +1107,32 @@ const Footer = () => {
 };
 
 const FloatingCTA = () => {
+  // En celular se muestra recién al pasar el hero (ahí ya hay botones de WhatsApp
+  // y el flotante taparía el principal). En compu está siempre visible.
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      const hero = document.querySelector('section');
+      const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+      setVisible(heroBottom < window.innerHeight * 0.6);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+    <div
+      className={cn(
+        "fixed bottom-6 right-6 z-40 flex flex-col gap-3 transition-opacity duration-300",
+        !visible && "max-lg:opacity-0 max-lg:pointer-events-none"
+      )}
+    >
       <a 
         href="https://wa.me/59891418114"
         target="_blank"

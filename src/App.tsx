@@ -563,7 +563,7 @@ const Services = () => {
             <motion.div
               key={i}
               whileHover={{ y: -5 }}
-              className="p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
+              className="flex flex-col p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
             >
               <div className="flex items-start justify-between mb-8">
                 <div className="p-4 bg-primary rounded-2xl">
@@ -592,7 +592,7 @@ const Services = () => {
   e.preventDefault();
   openWhatsApp(s.whatsappText);
 }}
-                className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+                className="mt-auto w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
               >
                 Consultar por WhatsApp
                 <WhatsAppIcon size={18} />

@@ -407,19 +407,21 @@ useEffect(() => {
 };
 
 const Hero = () => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    departamento: 'Montevideo',
-    situacion: 'Despido'
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.nombre || !formData.departamento) return;
-    trackConversion();
-    const text = `Hola DespedidoUy. Quiero hacer una consulta.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nDepartamento: ${formData.departamento}\n\n*Mi Situación:*\n${formData.situacion}`;
-   window.open(buildWhatsAppUrl(text), '_blank');
-  };
+  // Cada botón abre WhatsApp con el mensaje ya armado (registra conversión y atribución).
+  const situaciones = [
+    {
+      label: "Me despidieron",
+      text: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
+    },
+    {
+      label: "Me bajaron el sueldo o las horas",
+      text: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto."
+    },
+    {
+      label: "Me hicieron firmar un acuerdo",
+      text: "Hola, llegué desde DespedidoUy. Me hicieron firmar un acuerdo o una renuncia y quiero que revisen mi caso."
+    }
+  ];
 
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-primary">
@@ -442,7 +444,7 @@ const Hero = () => {
         >
           <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-8">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en menos de 24hs</span>
+            <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en el día</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8">
           ¿Te <span className="text-accent italic">despidieron?</span>
@@ -471,7 +473,7 @@ const Hero = () => {
             {[
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
-              { label: "Respuesta media", val: "24hs" },
+              { label: "Respuesta a tu consulta", val: "En el día" },
               { label: "Especializados en Derecho Laboral", val: "100%" },
             ].map((stat, i) => (
               <div key={i} className="relative pb-4">
@@ -487,54 +489,25 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="hidden lg:block relative"
+          className="relative"
         >
           <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
-          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[40px] shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-8">Consultanos sin compromiso</h3>
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Nombre</label>
-                <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all" placeholder="Tu nombre completo" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Departamento</label>
-                <select required value={formData.departamento} onChange={e => setFormData({...formData, departamento: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
-                  <option value="Montevideo" className="bg-primary">Montevideo</option>
-                  <option value="Artigas" className="bg-primary">Artigas</option>
-                  <option value="Canelones" className="bg-primary">Canelones</option>
-                  <option value="Cerro Largo" className="bg-primary">Cerro Largo</option>
-                  <option value="Colonia" className="bg-primary">Colonia</option>
-                  <option value="Durazno" className="bg-primary">Durazno</option>
-                  <option value="Flores" className="bg-primary">Flores</option>
-                  <option value="Florida" className="bg-primary">Florida</option>
-                  <option value="Lavalleja" className="bg-primary">Lavalleja</option>
-                  <option value="Maldonado" className="bg-primary">Maldonado</option>
-                  <option value="Paysandú" className="bg-primary">Paysandú</option>
-                  <option value="Río Negro" className="bg-primary">Río Negro</option>
-                  <option value="Rivera" className="bg-primary">Rivera</option>
-                  <option value="Rocha" className="bg-primary">Rocha</option>
-                  <option value="Salto" className="bg-primary">Salto</option>
-                  <option value="San José" className="bg-primary">San José</option>
-                  <option value="Soriano" className="bg-primary">Soriano</option>
-                  <option value="Tacuarembó" className="bg-primary">Tacuarembó</option>
-                  <option value="Treinta y Tres" className="bg-primary">Treinta y Tres</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Tu situación</label>
-                <select value={formData.situacion} onChange={e => setFormData({...formData, situacion: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
-                  <option value="Despido" className="bg-primary">Despido</option>
-                  <option value="Trabajo en negro" className="bg-primary">Trabajo en negro</option>
-                  <option value="Accidente laboral" className="bg-primary">Accidente laboral</option>
-                  <option value="Sueldos impagos" className="bg-primary">Sueldos impagos</option>
-                </select>
-              </div>
-              <button type="submit" className="w-full bg-white text-primary font-bold py-5 rounded-2xl hover:bg-accent hover:text-white transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2">
-                <WhatsAppIcon size={20} />
-                Enviar Consulta
-              </button>
-            </form>
+          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-10 rounded-[40px] shadow-2xl">
+            <h3 className="text-2xl font-bold text-white mb-2">¿Cuál es tu situación?</h3>
+            <p className="text-white/60 mb-8">Tocá la que se parezca a la tuya y te abrimos WhatsApp con el mensaje ya armado.</p>
+            <div className="space-y-4">
+              {situaciones.map((s) => (
+                <button
+                  key={s.label}
+                  type="button"
+                  onClick={() => openWhatsApp(s.text)}
+                  className="w-full bg-white/5 border border-white/15 hover:bg-accent hover:border-accent text-white font-bold text-left px-6 py-5 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-between gap-4"
+                >
+                  <span>{s.label}</span>
+                  <WhatsAppIcon size={22} className="flex-shrink-0" />
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
@@ -855,7 +828,7 @@ const Process = () => {
       icon: "01"
     },
     {
-      title: "Respondemos en 24hs",
+      title: "Respondemos en el día",
       desc: "Estudiamos tu situación y te decimos si podés reclamar, cuánto te corresponde y cómo actuar. En lenguaje claro.",
       icon: "02"
     },

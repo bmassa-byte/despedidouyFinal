@@ -424,7 +424,7 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-32 pb-16 overflow-hidden bg-primary">
+    <section className="relative min-h-[100svh] flex items-center pt-24 pb-8 overflow-hidden bg-primary">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -442,17 +442,17 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-8">
+          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-5">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en el día</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-5">
           ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
           <p className="border-l-4 border-accent pl-4 text-white font-semibold text-lg sm:text-xl mb-6">
             Solo cobramos si vos cobrás
           </p>
-          <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
+          <p className="text-lg sm:text-xl text-white/70 mb-8 max-w-xl leading-relaxed">
             Te decimos qué podés reclamar por tu despido. Sin vueltas, sin letra chica y con lenguaje claro.
           </p>
           
@@ -472,7 +472,7 @@ const Hero = () => {
             </a>
           </div>
 
-          <div className="mt-16 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-10">
+          <div className="mt-10 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-6">
             {[
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
@@ -491,7 +491,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-full lg:max-w-md lg:justify-self-end lg:mt-[4.25rem]"
+          className="relative w-full lg:max-w-md lg:justify-self-end lg:mt-[3.6rem]"
         >
           <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[32px] shadow-2xl">

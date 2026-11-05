@@ -432,8 +432,8 @@ const Hero = () => {
         >
           <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
           <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[32px] shadow-2xl">
-            <h3 className="text-xl font-bold text-white mb-2">¿Cuál es tu situación?</h3>
-            <p className="text-sm text-white/60 mb-6">Tocá la que se parezca a la tuya y te abrimos WhatsApp con el mensaje ya armado.</p>
+            <h3 className="text-xl font-bold text-white mb-2">¿Cuál de estas situaciones estás atravesando?</h3>
+            <p className="text-sm text-white/60 mb-6">Elegí la opción que se ajuste a tu realidad y contanos tu caso por WhatsApp.</p>
             <div className="space-y-3">
               {situaciones.map((s) => (
                 <button

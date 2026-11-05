@@ -775,15 +775,16 @@ const Process = () => {
   return (
     <section id="proceso" className="py-16 bg-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Cómo trabajamos</h2>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto">
+        <div className="text-center mb-10 md:mb-20">
+          <h2 className="text-3xl md:text-6xl font-bold text-white mb-3 md:mb-6">Cómo trabajamos</h2>
+          <p className="text-base md:text-xl text-white/50 max-w-2xl mx-auto">
             Un proceso transparente diseñado para que te sientas respaldado en cada paso.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-4 gap-8 relative">
-          {/* Connector Line */}
+        <div className="grid md:grid-cols-4 gap-6 md:gap-8 relative">
+          {/* Línea que une los pasos (celular: vertical, compu: horizontal) */}
+          <div className="md:hidden absolute top-7 bottom-7 left-7 -translate-x-1/2 w-px bg-white/10 z-0" />
           <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-white/10 z-0" />
           
           {steps.map((step, i) => (
@@ -792,21 +793,23 @@ const Process = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="relative z-10 flex flex-col items-center text-center"
+              className="relative z-10 flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
             >
-              <div className="w-24 h-24 rounded-[32px] bg-accent text-white font-serif font-bold flex items-center justify-center text-4xl mb-8 shadow-2xl shadow-accent/20">
+              <div className="flex-shrink-0 w-14 h-14 md:w-24 md:h-24 rounded-2xl md:rounded-[32px] bg-accent text-white font-serif font-bold flex items-center justify-center text-2xl md:text-4xl md:mb-8 shadow-2xl shadow-accent/20">
                 {step.icon}
               </div>
-              <h4 className="text-xl font-bold text-white mb-4">{step.title}</h4>
-              <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-4">{step.title}</h4>
+                <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        <div className="mt-24 p-12 rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="mt-12 md:mt-24 p-6 md:p-12 rounded-[32px] md:rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
           <div className="max-w-xl">
-            <h3 className="text-3xl font-bold text-white mb-4">Nuestra Misión</h3>
-            <p className="text-white/60 leading-relaxed">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Nuestra Misión</h3>
+            <p className="text-sm md:text-base text-white/60 leading-relaxed">
               En DespedidoUy defendemos a quienes trabajan y sostienen el país. Nuestra misión es acompañarte con claridad y compromiso, para que puedas reclamar lo que te corresponde. Creemos en una abogacía cercana, rápida y humana.
             </p>
           </div>
@@ -818,7 +821,7 @@ const Process = () => {
               e.preventDefault();
               openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
             }}
-            className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap"
+            className="bg-white text-primary font-bold px-6 py-4 md:px-10 md:py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap max-md:w-full text-center"
           >
             Hablá con un Abogado Ahora
           </a>

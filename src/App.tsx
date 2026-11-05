@@ -344,21 +344,6 @@ useEffect(() => {
 };
 
 const Hero = () => {
-  // Cada botón abre WhatsApp con el mensaje ya armado (registra conversión y atribución).
-  const situaciones = [
-    {
-      label: "Me despidieron",
-      text: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
-    },
-    {
-      label: "Me bajaron el sueldo o las horas",
-      text: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto."
-    },
-    {
-      label: "Me hicieron firmar un acuerdo",
-      text: "Hola, llegué desde DespedidoUy. Me hicieron firmar un acuerdo o una renuncia y quiero que revisen mi caso."
-    }
-  ];
 
   return (
     <section className="relative min-h-[100svh] flex items-center pt-24 pb-8 overflow-hidden bg-primary">
@@ -424,31 +409,6 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-full lg:max-w-md lg:justify-self-end lg:mt-[3.6rem]"
-        >
-          <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
-          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[32px] shadow-2xl">
-            <h3 className="text-xl font-bold text-white mb-2">¿Cuál de estas situaciones estás atravesando?</h3>
-            <p className="text-sm text-white/60 mb-6">Elegí la opción que se ajuste a tu realidad y contanos tu caso por WhatsApp.</p>
-            <div className="space-y-3">
-              {situaciones.map((s) => (
-                <button
-                  key={s.label}
-                  type="button"
-                  onClick={() => openWhatsApp(s.text)}
-                  className="w-full bg-white/5 border border-white/15 hover:bg-accent hover:border-accent text-white font-bold text-base text-left px-5 py-4 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-between gap-4"
-                >
-                  <span>{s.label}</span>
-                  <WhatsAppIcon size={20} className="flex-shrink-0" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

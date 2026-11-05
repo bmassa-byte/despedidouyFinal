@@ -1140,13 +1140,13 @@ export default function App() {
       <LocationSection />
       
       {/* Final CTA */}
-      <section className="py-16 bg-primary">
+      <section className="py-12 bg-primary">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">¿Hablamos de tu caso?</h2>
-          <p className="text-xl text-white/70 mb-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">¿Hablamos de tu caso?</h2>
+          <p className="text-xl text-white/70 mb-8">
             Protegé tus derechos con el respaldo de un equipo especializado.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex justify-center">
             <a 
               href="https://wa.me/59891418114"
               target="_blank"
@@ -1159,14 +1159,6 @@ export default function App() {
             >
               <WhatsAppIcon size={24} />
               Hablá con un Abogado
-            </a>
-            <a 
-              href="tel:+59899039588"
-              onClick={() => trackConversion()}
-              className="bg-white/10 text-white border border-white/20 text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-white/20 transition-all active:scale-95 flex items-center justify-center gap-3"
-            >
-              <Phone size={24} />
-              Llamar Ahora
             </a>
           </div>
         </div>

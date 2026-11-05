@@ -436,7 +436,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary to-primary" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -449,10 +449,9 @@ const Hero = () => {
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6">
           ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
-          <div className="inline-flex items-center gap-3 bg-white text-primary font-bold text-base sm:text-lg px-5 py-3 rounded-2xl shadow-xl mb-6">
-            <ShieldCheck className="w-6 h-6 text-accent flex-shrink-0" />
+          <p className="border-l-4 border-accent pl-4 text-white font-semibold text-lg sm:text-xl mb-6">
             Solo cobramos si vos cobrás
-          </div>
+          </p>
           <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
             Te decimos qué podés reclamar por tu despido. Sin vueltas, sin letra chica y con lenguaje claro.
           </p>
@@ -481,7 +480,7 @@ const Hero = () => {
               { label: "Especialistas en despidos", val: "100%" },
             ].map((stat, i) => (
               <div key={i} className="relative pb-4">
-                <p className="text-3xl font-bold text-white mb-1">{stat.val}</p>
+                <p className="text-2xl font-bold text-white mb-1 whitespace-nowrap">{stat.val}</p>
                 <p className="text-xs text-white/50 uppercase tracking-wider font-medium">{stat.label}</p>
                 <div className="absolute bottom-0 left-0 w-12 h-1 bg-accent rounded-full" />
               </div>
@@ -493,22 +492,22 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative"
+          className="relative w-full lg:max-w-md lg:justify-self-end lg:mt-[4.25rem]"
         >
           <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
-          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-10 rounded-[40px] shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-2">¿Cuál es tu situación?</h3>
-            <p className="text-white/60 mb-8">Tocá la que se parezca a la tuya y te abrimos WhatsApp con el mensaje ya armado.</p>
-            <div className="space-y-4">
+          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-[32px] shadow-2xl">
+            <h3 className="text-xl font-bold text-white mb-2">¿Cuál es tu situación?</h3>
+            <p className="text-sm text-white/60 mb-6">Tocá la que se parezca a la tuya y te abrimos WhatsApp con el mensaje ya armado.</p>
+            <div className="space-y-3">
               {situaciones.map((s) => (
                 <button
                   key={s.label}
                   type="button"
                   onClick={() => openWhatsApp(s.text)}
-                  className="w-full bg-white/5 border border-white/15 hover:bg-accent hover:border-accent text-white font-bold text-left px-6 py-5 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-between gap-4"
+                  className="w-full bg-white/5 border border-white/15 hover:bg-accent hover:border-accent text-white font-bold text-base text-left px-5 py-4 rounded-2xl transition-all active:scale-[0.98] flex items-center justify-between gap-4"
                 >
                   <span>{s.label}</span>
-                  <WhatsAppIcon size={22} className="flex-shrink-0" />
+                  <WhatsAppIcon size={20} className="flex-shrink-0" />
                 </button>
               ))}
             </div>

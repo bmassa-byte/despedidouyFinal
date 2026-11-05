@@ -372,7 +372,7 @@ const Hero = () => {
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-5">
           ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
-          <p className="border-l-4 border-accent pl-4 text-white font-semibold text-lg sm:text-xl mb-6">
+          <p className="border-l-4 lg:border-r-4 border-accent pl-4 lg:pr-4 text-white font-semibold text-lg sm:text-xl mb-6">
             Solo cobramos si vos cobrás
           </p>
           <p className="text-lg sm:text-xl text-white/70 mb-8 max-w-xl leading-relaxed">

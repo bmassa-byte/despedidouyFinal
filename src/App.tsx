@@ -416,6 +416,8 @@ const Hero = () => {
 };
 
 const Services = () => {
+  // En celular las tarjetas son plegables (una abierta a la vez). En compu se ven siempre completas.
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const services = [
     {
       title: "Me despidieron",
@@ -456,47 +458,73 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-2xl lg:max-w-none mx-auto">
-          {services.map((s, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -5 }}
-              className="flex flex-col p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
-            >
-              <div className="flex items-start justify-between mb-8">
-                <div className="p-4 bg-primary rounded-2xl">
-                  {s.icon}
-                </div>
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">Especialidad</span>
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">{s.title}</h3>
-              <p className="text-slate-600 mb-8 font-medium lg:min-h-[6rem] xl:min-h-[4.5rem]">{s.desc}</p>
-              
-              <div className="space-y-3 mb-10">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{s.subtitle}</p>
-                {s.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-sm text-slate-700">
-                    <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-
-              <a 
-                href="https://wa.me/59891418114"
-                target="_blank"
-                rel="noopener noreferrer"
-                 onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp(s.whatsappText);
-}}
-                className="mt-auto w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+        <div className="grid lg:grid-cols-3 gap-4 lg:gap-8 max-w-2xl lg:max-w-none mx-auto">
+          {services.map((s, i) => {
+            const open = openIndex === i;
+            const toggle = () => setOpenIndex(open ? null : i);
+            return (
+              <motion.div
+                key={i}
+                whileHover={{ y: -5 }}
+                className="flex flex-col p-5 lg:p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
               >
-                Consultar por WhatsApp
-                <WhatsAppIcon size={18} />
-              </a>
-            </motion.div>
-          ))}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={open}
+                  onClick={toggle}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggle();
+                    }
+                  }}
+                  className="flex items-center gap-4 lg:block cursor-pointer lg:cursor-default"
+                >
+                  <div className="flex-shrink-0 lg:flex lg:items-start lg:justify-between lg:mb-8">
+                    <div className="p-3 lg:p-4 bg-primary rounded-2xl">
+                      {s.icon}
+                    </div>
+                    <span className="hidden lg:block text-xs font-bold text-slate-300 uppercase tracking-widest">Especialidad</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl lg:text-2xl font-bold text-slate-900 mb-1 lg:mb-4">{s.title}</h3>
+                    <p className="text-sm lg:text-base text-slate-600 font-medium lg:mb-8 lg:min-h-[6rem] xl:min-h-[4.5rem]">{s.desc}</p>
+                  </div>
+                  <ChevronRight
+                    size={22}
+                    className={cn("lg:hidden flex-shrink-0 text-slate-400 transition-transform", open && "rotate-90")}
+                  />
+                </div>
+
+                <div className={cn("flex-1 flex-col lg:flex", open ? "flex" : "hidden")}>
+                  <div className="space-y-3 mt-6 lg:mt-0 mb-8 lg:mb-10">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{s.subtitle}</p>
+                    {s.items.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-3 text-sm text-slate-700">
+                        <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+
+                  <a 
+                    href="https://wa.me/59891418114"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openWhatsApp(s.whatsappText);
+                    }}
+                    className="mt-auto w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+                  >
+                    Consultar por WhatsApp
+                    <WhatsAppIcon size={18} />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -472,11 +472,10 @@ const Hero = () => {
             </a>
           </div>
 
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-white/10 pt-10">
+          <div className="mt-16 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-10">
             {[
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
-              { label: "Respuesta a tu consulta", val: "En el día" },
               { label: "Especialistas en despidos", val: "100%" },
             ].map((stat, i) => (
               <div key={i} className="relative pb-4">

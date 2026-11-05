@@ -806,8 +806,9 @@ const Process = () => {
           ))}
         </div>
 
-        <div className="mt-12 md:mt-24 p-6 md:p-12 rounded-[32px] md:rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
+        <div className="mt-12 md:mt-24 px-5 py-8 md:p-12 rounded-[32px] md:rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 text-center md:text-left">
           <div className="max-w-xl">
+            <div className="md:hidden w-10 h-1 rounded-full bg-accent mx-auto mb-4" />
             <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Nuestra Misión</h3>
             <p className="text-sm md:text-base text-white/60 leading-relaxed">
               En DespedidoUy defendemos a quienes trabajan y sostienen el país. Nuestra misión es acompañarte con claridad y compromiso, para que puedas reclamar lo que te corresponde. Creemos en una abogacía cercana, rápida y humana.

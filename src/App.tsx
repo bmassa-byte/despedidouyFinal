@@ -522,31 +522,31 @@ const Hero = () => {
 const Services = () => {
   const services = [
     {
-      title: "Despidos",
-      desc: "Defensa integral ante despidos.",
+      title: "Me despidieron",
+      desc: "Te echaron, con o sin explicación. Revisamos si te pagaron todo lo que corresponde.",
       subtitle: "Podés reclamar si:",
-      items: ["No te pagaron la indemnización que corresponde", "Te hicieron firmar renuncia bajo presión", "Despido por enfermedad o embarazo", "Querés darte por despedido indirectamente."],
+      items: ["Te despidieron y no te pagaron la indemnización completa", "Te despidieron sin una razón clara", "Te despidieron estando enfermo/a, accidentado/a o embarazada", "La empresa cerró y no cobraste lo que te correspondía"],
       icon: <AlertCircle className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
       whatsappText: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
     },
     {
-      title: "Accidentes Laborales",
-      desc: "Representación ante accidentes de trabajo y enfermedades profesionales.",
-      subtitle: "PODÉS RECLAMAR:",
-      items: ["Lesiones durante la jornada", "Problemas al reintegrarte.", "Indemnización deficiente", "Falta de atención médica"],
-      icon: <TrendingUp className="w-8 h-8 text-accent" />,
+      title: "Despido indirecto",
+      desc: "Te bajaron el sueldo o las horas y no te dejaron otra opción que irte.",
+      subtitle: "Podés reclamar si:",
+      items: ["Te redujeron el sueldo", "Te bajaron las horas o te cambiaron el horario", "Te cambiaron las condiciones de trabajo sin tu acuerdo", "Te dejaron de pagar lo que estaba acordado"],
+      icon: <Clock className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
-      whatsappText: "Hola, llegué desde DespedidoUy. Tuve un accidente laboral y quiero consultar por mi caso."
+      whatsappText: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto."
     },
     {
-      title: "Sueldos y Deudas",
-      desc: "Reclamo de haberes mal liquidados y diferencias.",
-      subtitle: "PODÉS RECLAMAR:",
-      items: ["Horas extras impagas", "Salario por debajo del mínimo.", "Diferencias salariales", "Otras Deudas Laborales"],
-      icon: <Briefcase className="w-8 h-8 text-accent" />,
+      title: "Acuerdo o renuncia",
+      desc: "Te hicieron firmar y no sabés si te pagaron lo justo.",
+      subtitle: "Te ayudamos si:",
+      items: ["Te hicieron firmar una renuncia bajo presión", "Te ofrecieron un acuerdo y no sabés si es justo", "Ya firmaste y querés revisar si te pagaron lo que correspondía"],
+      icon: <ShieldCheck className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
-      whatsappText: "Hola, llegué desde DespedidoUy. Me deben sueldo u horas extras y quiero consultar por mi caso."
+      whatsappText: "Hola, llegué desde DespedidoUy. Me ofrecieron o me hicieron firmar un acuerdo o renuncia y quiero que revisen mi caso."
     }
   ];
 
@@ -554,9 +554,9 @@ const Services = () => {
     <section id="servicios" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">¿Podés reclamar?</h2>
+          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">¿Cuál es tu situación?</h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Si te sentís identificado con alguna de estas situaciones, tenés derecho a iniciar un reclamo legal. <span className="text-primary font-bold">Te decimos si tu caso es viable sin vueltas.</span>
+            Elegí la que más se parezca a la tuya. <span className="text-primary font-bold">Te decimos si tu caso es viable sin vueltas.</span>
           </p>
         </div>
 

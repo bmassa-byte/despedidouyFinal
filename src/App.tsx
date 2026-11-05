@@ -973,6 +973,18 @@ const FAQ = () => {
       a: "El plazo de prescripción es de 1 año luego de finalizada la relación laboral."
     },
     {
+      q: "¿Qué es el despido indirecto?",
+      a: "Es cuando tu empleador cambia de forma importante tus condiciones de trabajo, por ejemplo te baja el sueldo o las horas, y no te deja otra opción que irte. En esos casos podés darte por despedido y reclamar una indemnización. Contanos qué pasó y te decimos si corresponde."
+    },
+    {
+      q: "¿Qué pasa si ya firmé un acuerdo o una renuncia?",
+      a: "Firmar no siempre cierra la puerta. Depende de qué firmaste y de cuánto te pagaron. Mandanos el documento por WhatsApp y lo revisamos sin compromiso."
+    },
+    {
+      q: "¿Toman cualquier caso de despido?",
+      a: "Analizamos cada caso. Como cobramos solo si vos cobrás, nos enfocamos en los reclamos con posibilidades reales, que suelen ser los de personas con varios años de antigüedad. Contanos tu situación y te decimos con franqueza si te conviene reclamar."
+    },
+    {
       q: "¿Qué pasa si trabajo 'en negro'?",
       a: "Igualmente podés realizar un reclamo laboral y adicionalmente ante el BPS por los aportes adeudados."
     }

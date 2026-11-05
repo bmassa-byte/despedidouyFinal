@@ -14,8 +14,6 @@ import {
   ChevronRight, 
   Star, 
   CheckCircle2, 
-  Menu, 
-  X,
   MapPin,
   Briefcase,
   AlertCircle,
@@ -274,7 +272,6 @@ const WhatsAppIcon = ({ size = 24, className = "" }) => (
 );
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
 useEffect(() => {
@@ -305,124 +302,51 @@ useEffect(() => {
       "fixed top-0 w-full z-50 transition-all duration-300",
       scrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
     )}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="bg-primary p-1.5 rounded-lg">
-            <Scale className="text-white w-6 h-6" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="bg-primary p-1.5 rounded-lg max-[359px]:hidden">
+            <Scale className="text-white w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <span className={cn(
-            "font-serif text-2xl font-bold tracking-tight",
+            "font-serif text-xl max-[359px]:text-lg sm:text-2xl font-bold tracking-tight whitespace-nowrap",
             scrolled ? "text-primary" : "text-white"
           )}>
             Despedido<span className="text-accent">Uy</span>
           </span>
         </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {['Servicios', 'Calculadora', 'Proceso', 'Testimonios', 'FAQ'].map((item) => (
-            <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`}
-              className={cn(
-                "text-sm font-medium hover:text-accent transition-colors",
-                scrolled ? "text-slate-600" : "text-white/90"
-              )}
-            >
-              {item}
-            </a>
-          ))}
-          <a 
+        {/* Menú reducido: solo dos acciones, visibles también en celular */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <a
+            href="#calculadora"
+            className={cn(
+              "font-bold text-sm sm:text-base px-3.5 max-[359px]:px-3 sm:px-6 py-2 sm:py-2.5 rounded-full border-2 transition-colors",
+              scrolled
+                ? "border-primary text-primary hover:bg-primary hover:text-white"
+                : "border-white/70 text-white hover:bg-white hover:text-primary"
+            )}
+          >
+            Calculadora
+          </a>
+          <a
             href="tel:+59899039588"
-            onClick={trackConversion}
-            className="bg-accent hover:bg-accent/90 text-primary font-bold px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
+            onClick={() => trackConversion()}
+            aria-label="Llamar ahora"
+            className="bg-accent hover:bg-accent/90 text-primary font-bold px-3 sm:px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
           >
             <Phone size={18} />
-            Llamar Ahora
+            <span className="hidden sm:inline">Llamar Ahora</span>
           </a>
         </div>
-
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden p-2"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <X className={scrolled ? "text-primary" : "text-white"} />
-          ) : (
-            <Menu className={scrolled ? "text-primary" : "text-white"} />
-          )}
-        </button>
       </div>
-
-      {/* Mobile Nav */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
-          >
-            <div className="px-4 py-6 space-y-4">
-              {['Servicios', 'Calculadora', 'Proceso', 'Testimonios', 'FAQ'].map((item) => (
-                <a 
-                  key={item} 
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-lg font-medium text-slate-700 hover:text-primary"
-                >
-                  {item}
-                </a>
-              ))}
-              <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
-                <a 
-                  href="tel:+59899039588"
-                  onClick={trackConversion}
-                  className="w-full bg-primary text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
-                >
-                  <Phone size={20} />
-                  Llamar Ahora
-                </a>
-                <a 
-                  href="https://wa.me/59891418114"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                 onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
-}}
-                  className="w-full bg-emerald-500 text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
-                >
-                  <WhatsAppIcon size={20} />
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
 
 const Hero = () => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    departamento: 'Montevideo',
-    situacion: 'Despido'
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.nombre || !formData.departamento) return;
-    trackConversion();
-    const text = `Hola DespedidoUy. Quiero hacer una consulta.\n\n*Mis Datos:*\nNombre: ${formData.nombre}\nDepartamento: ${formData.departamento}\n\n*Mi Situación:*\n${formData.situacion}`;
-   window.open(buildWhatsAppUrl(text), '_blank');
-  };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-primary">
+    <section className="relative min-h-[100svh] flex items-center pt-24 pb-8 overflow-hidden bg-primary">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -434,21 +358,25 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary to-primary" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="lg:flex lg:flex-col lg:items-center lg:text-center lg:max-w-3xl lg:mx-auto"
         >
-          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-8">
+          <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-5">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en menos de 24hs</span>
+            <span className="text-accent text-xs font-bold uppercase tracking-widest">Respuesta en el día</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-8">
+          <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-5">
           ¿Te <span className="text-accent italic">despidieron?</span>
           </h1>
-          <p className="text-xl text-white/70 mb-10 max-w-xl leading-relaxed">
-            Te ayudamos a reclamar lo que te corresponde. Sin vueltas, sin letra chica y con lenguaje claro. <span className="text-white font-semibold">Solo cobramos si vos cobrás.</span>
+          <p className="border-l-4 lg:border-r-4 border-accent pl-4 lg:pr-4 text-white font-semibold text-lg sm:text-xl mb-6">
+            Solo cobramos si vos cobrás
+          </p>
+          <p className="text-lg sm:text-xl text-white/70 mb-8 max-w-xl leading-relaxed">
+            Te decimos qué podés reclamar por tu despido. Sin vueltas, sin letra chica y con lenguaje claro.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5">
@@ -467,109 +395,56 @@ const Hero = () => {
             </a>
           </div>
 
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 border-t border-white/10 pt-10">
+          <div className="mt-10 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-6 w-full lg:max-w-2xl">
             {[
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
-              { label: "Respuesta media", val: "24hs" },
-              { label: "Especializados en Derecho Laboral", val: "100%" },
+              { label: "Especialistas en despidos", val: "100%" },
             ].map((stat, i) => (
-              <div key={i} className="relative pb-4">
-                <p className="text-3xl font-bold text-white mb-1">{stat.val}</p>
+              <div key={i} className="relative pb-4 lg:text-center">
+                <p className="text-2xl font-bold text-white mb-1 whitespace-nowrap">{stat.val}</p>
                 <p className="text-xs text-white/50 uppercase tracking-wider font-medium">{stat.label}</p>
-                <div className="absolute bottom-0 left-0 w-12 h-1 bg-accent rounded-full" />
+                <div className="absolute bottom-0 left-0 lg:left-1/2 lg:-translate-x-1/2 w-12 h-1 bg-accent rounded-full" />
               </div>
             ))}
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="hidden lg:block relative"
-        >
-          <div className="absolute -inset-10 bg-accent/20 rounded-full blur-[120px] opacity-30" />
-          <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[40px] shadow-2xl">
-            <h3 className="text-2xl font-bold text-white mb-8">Consultanos sin compromiso</h3>
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Nombre</label>
-                <input required type="text" value={formData.nombre} onChange={e => setFormData({...formData, nombre: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all" placeholder="Tu nombre completo" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Departamento</label>
-                <select required value={formData.departamento} onChange={e => setFormData({...formData, departamento: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
-                  <option value="Montevideo" className="bg-primary">Montevideo</option>
-                  <option value="Artigas" className="bg-primary">Artigas</option>
-                  <option value="Canelones" className="bg-primary">Canelones</option>
-                  <option value="Cerro Largo" className="bg-primary">Cerro Largo</option>
-                  <option value="Colonia" className="bg-primary">Colonia</option>
-                  <option value="Durazno" className="bg-primary">Durazno</option>
-                  <option value="Flores" className="bg-primary">Flores</option>
-                  <option value="Florida" className="bg-primary">Florida</option>
-                  <option value="Lavalleja" className="bg-primary">Lavalleja</option>
-                  <option value="Maldonado" className="bg-primary">Maldonado</option>
-                  <option value="Paysandú" className="bg-primary">Paysandú</option>
-                  <option value="Río Negro" className="bg-primary">Río Negro</option>
-                  <option value="Rivera" className="bg-primary">Rivera</option>
-                  <option value="Rocha" className="bg-primary">Rocha</option>
-                  <option value="Salto" className="bg-primary">Salto</option>
-                  <option value="San José" className="bg-primary">San José</option>
-                  <option value="Soriano" className="bg-primary">Soriano</option>
-                  <option value="Tacuarembó" className="bg-primary">Tacuarembó</option>
-                  <option value="Treinta y Tres" className="bg-primary">Treinta y Tres</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-white/50 uppercase tracking-widest">Tu situación</label>
-                <select value={formData.situacion} onChange={e => setFormData({...formData, situacion: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none focus:border-accent transition-all appearance-none">
-                  <option value="Despido" className="bg-primary">Despido</option>
-                  <option value="Trabajo en negro" className="bg-primary">Trabajo en negro</option>
-                  <option value="Accidente laboral" className="bg-primary">Accidente laboral</option>
-                  <option value="Sueldos impagos" className="bg-primary">Sueldos impagos</option>
-                </select>
-              </div>
-              <button type="submit" className="w-full bg-white text-primary font-bold py-5 rounded-2xl hover:bg-accent hover:text-white transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2">
-                <WhatsAppIcon size={20} />
-                Enviar Consulta
-              </button>
-            </form>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 };
 
 const Services = () => {
+  // En celular las tarjetas son plegables (una abierta a la vez). En compu se ven siempre completas.
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const services = [
     {
-      title: "Despidos",
-      desc: "Defensa integral ante despidos.",
+      title: "Me despidieron",
+      desc: "Te echaron, con o sin explicación. Revisamos si te pagaron todo lo que corresponde.",
       subtitle: "Podés reclamar si:",
-      items: ["No te pagaron la indemnización que corresponde", "Te hicieron firmar renuncia bajo presión", "Despido por enfermedad o embarazo", "Querés darte por despedido indirectamente."],
+      items: ["Te despidieron y no te pagaron la indemnización completa", "Te despidieron sin una razón clara", "Te despidieron estando enfermo/a, accidentado/a o embarazada", "La empresa cerró y no cobraste lo que te correspondía"],
       icon: <AlertCircle className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
       whatsappText: "Hola, llegué desde DespedidoUy. Me despidieron y quiero consultar por mi caso."
     },
     {
-      title: "Accidentes Laborales",
-      desc: "Representación ante accidentes de trabajo y enfermedades profesionales.",
-      subtitle: "PODÉS RECLAMAR:",
-      items: ["Lesiones durante la jornada", "Problemas al reintegrarte.", "Indemnización deficiente", "Falta de atención médica"],
-      icon: <TrendingUp className="w-8 h-8 text-accent" />,
+      title: "Despido indirecto",
+      desc: "Te bajaron el sueldo o las horas y no te dejaron otra opción que irte.",
+      subtitle: "Podés reclamar si:",
+      items: ["Te redujeron el sueldo", "Te bajaron las horas o te cambiaron el horario", "Te cambiaron las condiciones de trabajo sin tu acuerdo", "Te dejaron de pagar lo que estaba acordado"],
+      icon: <Clock className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
-      whatsappText: "Hola, llegué desde DespedidoUy. Tuve un accidente laboral y quiero consultar por mi caso."
+      whatsappText: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto."
     },
     {
-      title: "Sueldos y Deudas",
-      desc: "Reclamo de haberes mal liquidados y diferencias.",
-      subtitle: "PODÉS RECLAMAR:",
-      items: ["Horas extras impagas", "Salario por debajo del mínimo.", "Diferencias salariales", "Otras Deudas Laborales"],
-      icon: <Briefcase className="w-8 h-8 text-accent" />,
+      title: "Acuerdo o renuncia",
+      desc: "Te hicieron firmar y no sabés si te pagaron lo justo.",
+      subtitle: "Te ayudamos si:",
+      items: ["Te hicieron firmar una renuncia bajo presión", "Te ofrecieron un acuerdo y no sabés si es justo", "Ya firmaste y querés revisar si te pagaron lo que correspondía"],
+      icon: <ShieldCheck className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
-      whatsappText: "Hola, llegué desde DespedidoUy. Me deben sueldo u horas extras y quiero consultar por mi caso."
+      whatsappText: "Hola, llegué desde DespedidoUy. Me ofrecieron o me hicieron firmar un acuerdo o renuncia y quiero que revisen mi caso."
     }
   ];
 
@@ -577,53 +452,79 @@ const Services = () => {
     <section id="servicios" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">¿Podés reclamar?</h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Si te sentís identificado con alguna de estas situaciones, tenés derecho a iniciar un reclamo legal. <span className="text-primary font-bold">Te decimos si tu caso es viable sin vueltas.</span>
+          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">¿Cuál es tu situación?</h2>
+          <p className="text-lg sm:text-xl text-slate-600 max-w-5xl mx-auto leading-relaxed lg:whitespace-nowrap">
+            Elegí la que más se parezca a la tuya. <span className="text-primary font-bold">Te decimos si tu caso es viable sin vueltas.</span>
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((s, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -5 }}
-              className="p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
-            >
-              <div className="flex items-start justify-between mb-8">
-                <div className="p-4 bg-primary rounded-2xl">
-                  {s.icon}
-                </div>
-                <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">Especialidad</span>
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">{s.title}</h3>
-              <p className="text-slate-600 mb-8 font-medium">{s.desc}</p>
-              
-              <div className="space-y-3 mb-10">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{s.subtitle}</p>
-                {s.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-sm text-slate-700">
-                    <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-
-              <a 
-                href="https://wa.me/59891418114"
-                target="_blank"
-                rel="noopener noreferrer"
-                 onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp(s.whatsappText);
-}}
-                className="w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+        <div className="grid lg:grid-cols-3 gap-4 lg:gap-8 max-w-2xl lg:max-w-none mx-auto">
+          {services.map((s, i) => {
+            const open = openIndex === i;
+            const toggle = () => setOpenIndex(open ? null : i);
+            return (
+              <motion.div
+                key={i}
+                whileHover={{ y: -5 }}
+                className="flex flex-col p-5 lg:p-10 rounded-[32px] border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl transition-all group"
               >
-                Consultar por WhatsApp
-                <WhatsAppIcon size={18} />
-              </a>
-            </motion.div>
-          ))}
+                <div
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={open}
+                  onClick={toggle}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggle();
+                    }
+                  }}
+                  className="flex items-center gap-4 lg:block cursor-pointer lg:cursor-default"
+                >
+                  <div className="flex-shrink-0 lg:flex lg:items-start lg:justify-between lg:mb-8">
+                    <div className="p-3 lg:p-4 bg-primary rounded-2xl">
+                      {s.icon}
+                    </div>
+                    <span className="hidden lg:block text-xs font-bold text-slate-300 uppercase tracking-widest">Especialidad</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl lg:text-2xl font-bold text-slate-900 mb-1 lg:mb-4">{s.title}</h3>
+                    <p className="text-sm lg:text-base text-slate-600 font-medium lg:mb-8 lg:min-h-[6rem] xl:min-h-[4.5rem]">{s.desc}</p>
+                  </div>
+                  <ChevronRight
+                    size={22}
+                    className={cn("lg:hidden flex-shrink-0 text-slate-400 transition-transform", open && "rotate-90")}
+                  />
+                </div>
+
+                <div className={cn("flex-1 flex-col lg:flex", open ? "flex" : "hidden")}>
+                  <div className="space-y-3 mt-6 lg:mt-0 mb-8 lg:mb-10">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{s.subtitle}</p>
+                    {s.items.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-3 text-sm text-slate-700">
+                        <CheckCircle2 size={16} className="text-accent flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+
+                  <a 
+                    href="https://wa.me/59891418114"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openWhatsApp(s.whatsappText);
+                    }}
+                    className="mt-auto w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+                  >
+                    Consultar por WhatsApp
+                    <WhatsAppIcon size={18} />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -734,14 +635,14 @@ trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
   };
 
   return (
-    <section id="calculadora" className="py-16 bg-slate-50">
+    <section id="calculadora" className="py-16 bg-slate-50 scroll-mt-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-4">
             <Calculator className="text-accent w-4 h-4" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Herramienta Gratuita</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Calculadora de Indemnización</h2>
+          <h2 className="text-xl min-[360px]:text-2xl min-[400px]:text-3xl md:text-5xl font-bold text-slate-900 mb-4 whitespace-nowrap">Calculadora de Indemnización</h2>
           <p className="text-lg text-slate-600">Descubrí un estimado de cuánto te corresponde.</p>
         </div>
 
@@ -855,7 +756,7 @@ const Process = () => {
       icon: "01"
     },
     {
-      title: "Respondemos en 24hs",
+      title: "Respondemos en el día",
       desc: "Estudiamos tu situación y te decimos si podés reclamar, cuánto te corresponde y cómo actuar. En lenguaje claro.",
       icon: "02"
     },
@@ -874,15 +775,16 @@ const Process = () => {
   return (
     <section id="proceso" className="py-16 bg-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Cómo trabajamos</h2>
-          <p className="text-xl text-white/50 max-w-2xl mx-auto">
+        <div className="text-center mb-10 md:mb-20">
+          <h2 className="text-3xl md:text-6xl font-bold text-white mb-3 md:mb-6">Cómo trabajamos</h2>
+          <p className="text-base md:text-xl text-white/50 max-w-2xl mx-auto">
             Un proceso transparente diseñado para que te sientas respaldado en cada paso.
           </p>
         </div>
         
-        <div className="grid md:grid-cols-4 gap-8 relative">
-          {/* Connector Line */}
+        <div className="grid md:grid-cols-4 gap-6 md:gap-8 relative">
+          {/* Línea que une los pasos (celular: vertical, compu: horizontal) */}
+          <div className="md:hidden absolute top-7 bottom-7 left-7 -translate-x-1/2 w-px bg-white/10 z-0" />
           <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-white/10 z-0" />
           
           {steps.map((step, i) => (
@@ -891,21 +793,24 @@ const Process = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="relative z-10 flex flex-col items-center text-center"
+              className="relative z-10 flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
             >
-              <div className="w-24 h-24 rounded-[32px] bg-accent text-white font-serif font-bold flex items-center justify-center text-4xl mb-8 shadow-2xl shadow-accent/20">
+              <div className="flex-shrink-0 w-14 h-14 md:w-24 md:h-24 rounded-2xl md:rounded-[32px] bg-accent text-white font-serif font-bold flex items-center justify-center text-2xl md:text-4xl md:mb-8 shadow-2xl shadow-accent/20">
                 {step.icon}
               </div>
-              <h4 className="text-xl font-bold text-white mb-4">{step.title}</h4>
-              <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-lg md:text-xl font-bold text-white mb-1 md:mb-4">{step.title}</h4>
+                <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        <div className="mt-24 p-12 rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="mt-12 md:mt-24 px-5 py-8 md:p-12 rounded-[32px] md:rounded-[40px] bg-white/5 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 text-center md:text-left">
           <div className="max-w-xl">
-            <h3 className="text-3xl font-bold text-white mb-4">Nuestra Misión</h3>
-            <p className="text-white/60 leading-relaxed">
+            <div className="md:hidden w-10 h-1 rounded-full bg-accent mx-auto mb-4" />
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Nuestra Misión</h3>
+            <p className="text-sm md:text-base text-white/60 leading-relaxed">
               En DespedidoUy defendemos a quienes trabajan y sostienen el país. Nuestra misión es acompañarte con claridad y compromiso, para que puedas reclamar lo que te corresponde. Creemos en una abogacía cercana, rápida y humana.
             </p>
           </div>
@@ -917,7 +822,7 @@ const Process = () => {
               e.preventDefault();
               openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
             }}
-            className="bg-white text-primary font-bold px-10 py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap"
+            className="bg-white text-primary font-bold px-6 py-4 md:px-10 md:py-5 rounded-2xl hover:bg-accent hover:text-white transition-all whitespace-nowrap max-md:w-full text-center"
           >
             Hablá con un Abogado Ahora
           </a>
@@ -946,33 +851,75 @@ const Testimonials = () => {
       role: "Operario",
       text: "Los contacté para firmar un acuerdo por mi despido. Recomiendo por su rapidez y seriedad.",
       rating: 5
+    },
+    {
+      name: "Carlos R.",
+      role: "Ex-empleado de Comercio",
+      text: "Después de 8 años trabajando, me despidieron sin darme una explicación. Me asesoraron desde el primer momento y conseguimos una indemnización justa. Muy agradecido por la atención.",
+      rating: 5
+    },
+    {
+      name: "Andrea P.",
+      role: "Administrativa",
+      text: "Tenía dudas sobre si me correspondía cobrar algo después de mi despido. Me explicaron todo con claridad, se ocuparon del reclamo y logramos llegar a un buen acuerdo. Excelente atención.",
+      rating: 5
     }
   ];
 
+  // Se frena al tocar (en celular no existe el "hover") y retoma solo a los pocos segundos.
+  const [paused, setPaused] = useState(false);
+  const resumeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const pauseOnTouch = () => {
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), 4000);
+  };
+
+  const renderCard = (t: (typeof testimonials)[number], key: string, hidden = false) => (
+    <div
+      key={key}
+      aria-hidden={hidden || undefined}
+      className={cn(
+        "flex-none flex flex-col w-[300px] sm:w-[400px] mr-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 relative",
+        hidden && "motion-reduce:hidden"
+      )}
+    >
+      <div className="flex text-accent mb-4">
+        {[...Array(t.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
+      </div>
+      <p className="text-slate-700 italic mb-6">"{t.text}"</p>
+      <div className="mt-auto">
+        <p className="font-bold text-slate-900">{t.name}</p>
+        <p className="text-sm text-slate-500">{t.role}</p>
+      </div>
+      <div className="absolute top-8 right-8 text-slate-200">
+        <MessageSquare size={40} />
+      </div>
+    </div>
+  );
+
   return (
-    <section id="testimonios" className="py-16 bg-white">
+    <section id="testimonios" className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Lo que dicen nuestros clientes</h2>
           <p className="text-lg text-slate-600">La confianza de quienes ya defendimos es nuestro respaldo.</p>
         </div>
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <div key={i} className="p-8 rounded-3xl bg-slate-50 border border-slate-100 relative">
-              <div className="flex text-accent mb-4">
-                {[...Array(t.rating)].map((_, i) => <Star key={i} size={18} fill="currentColor" />)}
-              </div>
-              <p className="text-slate-700 italic mb-6">"{t.text}"</p>
-              <div>
-                <p className="font-bold text-slate-900">{t.name}</p>
-                <p className="text-sm text-slate-500">{t.role}</p>
-              </div>
-              <div className="absolute top-8 right-8 text-slate-200">
-                <MessageSquare size={40} />
-              </div>
-            </div>
-          ))}
+      {/* Cinta que se desplaza sola. Con "reducir movimiento" activado queda quieta y se puede deslizar con el dedo. */}
+      <div
+        className="overflow-hidden motion-reduce:overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+        onTouchStart={pauseOnTouch}
+      >
+        <div
+          className="testimonios-track flex w-max"
+          data-paused={paused}
+          style={{ ['--marquee-duration' as any]: `${testimonials.length * 12}s` }}
+        >
+          {testimonials.map((t, i) => renderCard(t, `a-${i}`))}
+          {testimonials.map((t, i) => renderCard(t, `b-${i}`, true))}
         </div>
       </div>
     </section>
@@ -994,6 +941,18 @@ const FAQ = () => {
     {
       q: "¿Cuánto tiempo tengo para reclamar un despido?",
       a: "El plazo de prescripción es de 1 año luego de finalizada la relación laboral."
+    },
+    {
+      q: "¿Qué es el despido indirecto?",
+      a: "Es cuando tu empleador cambia de forma importante tus condiciones de trabajo, por ejemplo te baja el sueldo o las horas, y no te deja otra opción que irte. En esos casos podés darte por despedido y reclamar una indemnización. Contanos qué pasó y te decimos si corresponde."
+    },
+    {
+      q: "¿Qué pasa si ya firmé un acuerdo o una renuncia?",
+      a: "Firmar no siempre cierra la puerta. Depende de qué firmaste y de cuánto te pagaron. Mandanos el documento por WhatsApp y lo revisamos sin compromiso."
+    },
+    {
+      q: "¿Toman cualquier caso de despido?",
+      a: "Analizamos cada caso. Como cobramos solo si vos cobrás, nos enfocamos en los reclamos con posibilidades reales, que suelen ser los de personas con varios años de antigüedad. Contanos tu situación y te decimos con franqueza si te conviene reclamar."
     },
     {
       q: "¿Qué pasa si trabajo 'en negro'?",
@@ -1107,7 +1066,7 @@ const Footer = () => {
             </span>
           </div>
           <p className="text-slate-400 max-w-sm mb-6">
-            Especialistas en la defensa de los derechos del trabajador en Uruguay. Honestidad, compromiso y resultados.
+            Especialistas en despidos en Montevideo y Canelones. Honestidad, compromiso y resultados.
           </p>
           <div className="flex gap-4">
             <a 
@@ -1124,7 +1083,7 @@ const Footer = () => {
             </a>
             <a 
               href="tel:+59899039588"
-              onClick={trackConversion}
+              onClick={() => trackConversion()}
               className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent hover:text-primary transition-all cursor-pointer"
             >
               <Phone size={20} />
@@ -1142,7 +1101,9 @@ const Footer = () => {
 
 const FloatingCTA = () => {
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+    <div
+      className="fixed bottom-6 right-6 z-40 flex flex-col gap-3"
+    >
       <a 
         href="https://wa.me/59891418114"
         target="_blank"
@@ -1174,13 +1135,13 @@ export default function App() {
       <LocationSection />
       
       {/* Final CTA */}
-      <section className="py-16 bg-primary">
+      <section className="py-12 bg-primary">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">¿Hablamos de tu caso?</h2>
-          <p className="text-xl text-white/70 mb-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">¿Hablamos de tu caso?</h2>
+          <p className="text-xl text-white/70 mb-8">
             Protegé tus derechos con el respaldo de un equipo especializado.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex justify-center">
             <a 
               href="https://wa.me/59891418114"
               target="_blank"
@@ -1193,14 +1154,6 @@ export default function App() {
             >
               <WhatsAppIcon size={24} />
               Hablá con un Abogado
-            </a>
-            <a 
-              href="tel:+59899039588"
-              onClick={trackConversion}
-              className="bg-white/10 text-white border border-white/20 text-lg font-bold px-10 py-5 rounded-2xl shadow-xl hover:bg-white/20 transition-all active:scale-95 flex items-center justify-center gap-3"
-            >
-              <Phone size={24} />
-              Llamar Ahora
             </a>
           </div>
         </div>

@@ -553,7 +553,7 @@ const Services = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">¿Cuál es tu situación?</h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-slate-600 max-w-5xl mx-auto leading-relaxed lg:whitespace-nowrap">
             Elegí la que más se parezca a la tuya. <span className="text-primary font-bold">Te decimos si tu caso es viable sin vueltas.</span>
           </p>
         </div>

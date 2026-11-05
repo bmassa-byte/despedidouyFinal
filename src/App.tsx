@@ -558,7 +558,7 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 max-w-2xl lg:max-w-none mx-auto">
           {services.map((s, i) => (
             <motion.div
               key={i}
@@ -572,7 +572,7 @@ const Services = () => {
                 <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">Especialidad</span>
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4">{s.title}</h3>
-              <p className="text-slate-600 mb-8 font-medium">{s.desc}</p>
+              <p className="text-slate-600 mb-8 font-medium lg:min-h-[6rem] xl:min-h-[4.5rem]">{s.desc}</p>
               
               <div className="space-y-3 mb-10">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{s.subtitle}</p>

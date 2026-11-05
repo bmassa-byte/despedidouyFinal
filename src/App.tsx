@@ -14,8 +14,6 @@ import {
   ChevronRight, 
   Star, 
   CheckCircle2, 
-  Menu, 
-  X,
   MapPin,
   Briefcase,
   AlertCircle,
@@ -274,7 +272,6 @@ const WhatsAppIcon = ({ size = 24, className = "" }) => (
 );
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
 useEffect(() => {
@@ -318,90 +315,30 @@ useEffect(() => {
           </span>
         </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {['Servicios', 'Calculadora', 'Proceso', 'Testimonios', 'FAQ'].map((item) => (
-            <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`}
-              className={cn(
-                "text-sm font-medium hover:text-accent transition-colors",
-                scrolled ? "text-slate-600" : "text-white/90"
-              )}
-            >
-              {item}
-            </a>
-          ))}
-          <a 
+        {/* Menú reducido: solo dos acciones, visibles también en celular */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="#calculadora"
+            className={cn(
+              "font-bold text-sm sm:text-base px-4 sm:px-6 py-2.5 rounded-full border-2 transition-colors",
+              scrolled
+                ? "border-primary text-primary hover:bg-primary hover:text-white"
+                : "border-white/70 text-white hover:bg-white hover:text-primary"
+            )}
+          >
+            Calculadora
+          </a>
+          <a
             href="tel:+59899039588"
             onClick={() => trackConversion()}
-            className="bg-accent hover:bg-accent/90 text-primary font-bold px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
+            aria-label="Llamar ahora"
+            className="bg-accent hover:bg-accent/90 text-primary font-bold px-3.5 sm:px-6 py-2.5 rounded-full flex items-center gap-2 transition-transform active:scale-95"
           >
             <Phone size={18} />
-            Llamar Ahora
+            <span className="hidden sm:inline">Llamar Ahora</span>
           </a>
         </div>
-
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="md:hidden p-2"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <X className={scrolled ? "text-primary" : "text-white"} />
-          ) : (
-            <Menu className={scrolled ? "text-primary" : "text-white"} />
-          )}
-        </button>
       </div>
-
-      {/* Mobile Nav */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
-          >
-            <div className="px-4 py-6 space-y-4">
-              {['Servicios', 'Calculadora', 'Proceso', 'Testimonios', 'FAQ'].map((item) => (
-                <a 
-                  key={item} 
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-lg font-medium text-slate-700 hover:text-primary"
-                >
-                  {item}
-                </a>
-              ))}
-              <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
-                <a 
-                  href="tel:+59899039588"
-                  onClick={() => trackConversion()}
-                  className="w-full bg-primary text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
-                >
-                  <Phone size={20} />
-                  Llamar Ahora
-                </a>
-                <a 
-                  href="https://wa.me/59891418114"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                 onClick={(e) => {
-  e.preventDefault();
-  openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
-}}
-                  className="w-full bg-emerald-500 text-white text-center py-4 rounded-xl font-bold flex justify-center items-center gap-2"
-                >
-                  <WhatsAppIcon size={20} />
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
@@ -709,7 +646,7 @@ trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
   };
 
   return (
-    <section id="calculadora" className="py-16 bg-slate-50">
+    <section id="calculadora" className="py-16 bg-slate-50 scroll-mt-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-4">

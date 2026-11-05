@@ -358,11 +358,12 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary to-primary" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-16 items-start">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="lg:flex lg:flex-col lg:items-center lg:text-center lg:max-w-3xl lg:mx-auto"
         >
           <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 px-4 py-2 rounded-full mb-5">
             <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
@@ -394,16 +395,16 @@ const Hero = () => {
             </a>
           </div>
 
-          <div className="mt-10 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-6">
+          <div className="mt-10 grid grid-cols-3 gap-6 sm:gap-8 border-t border-white/10 pt-6 w-full lg:max-w-2xl">
             {[
               { label: "Años de experiencia", val: "+10" },
               { label: "Casos resueltos", val: "+1200" },
               { label: "Especialistas en despidos", val: "100%" },
             ].map((stat, i) => (
-              <div key={i} className="relative pb-4">
+              <div key={i} className="relative pb-4 lg:text-center">
                 <p className="text-2xl font-bold text-white mb-1 whitespace-nowrap">{stat.val}</p>
                 <p className="text-xs text-white/50 uppercase tracking-wider font-medium">{stat.label}</p>
-                <div className="absolute bottom-0 left-0 w-12 h-1 bg-accent rounded-full" />
+                <div className="absolute bottom-0 left-0 lg:left-1/2 lg:-translate-x-1/2 w-12 h-1 bg-accent rounded-full" />
               </div>
             ))}
           </div>

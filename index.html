@@ -14,17 +14,34 @@
     {
       "@context": "https://schema.org",
       "@type": "LegalService",
+      "@id": "https://www.despedido.uy/#estudio",
       "name": "DespedidoUy",
       "url": "https://www.despedido.uy/",
+      "logo": "https://www.despedido.uy/favicon.png",
+      "image": "https://www.despedido.uy/og-image.jpg",
       "description": "Abogados especialistas en despidos: despido, despido indirecto y acuerdos. Solo cobramos si vos cobrás.",
       "telephone": "+59899039588",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Juncal 1408 of. 502",
         "addressLocality": "Montevideo",
+        "addressRegion": "Montevideo",
         "addressCountry": "UY"
       },
-      "areaServed": ["Montevideo", "Canelones"]
+      "hasMap": "https://www.google.com/maps?q=Juncal+1408,+Montevideo,+Uruguay",
+      "areaServed": [
+        { "@type": "City", "name": "Montevideo" },
+        { "@type": "AdministrativeArea", "name": "Canelones" }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "knowsAbout": ["Despido", "Despido indirecto", "Acuerdo entre partes", "Derecho laboral"]
     }
     </script>
 

@@ -912,7 +912,7 @@ const Testimonials = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Lo que dicen nuestros clientes</h2>
-          <p className="text-lg text-slate-600">La confianza de quienes ya defendimos es nuestro respaldo.</p>
+          <p className="text-[clamp(0.5rem,3vw,1.125rem)] text-slate-600 whitespace-nowrap">La confianza de quienes ya defendimos es nuestro respaldo.</p>
         </div>
       </div>
 

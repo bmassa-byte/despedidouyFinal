@@ -303,7 +303,15 @@ useEffect(() => {
       scrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-3">
-        <div className="flex items-center gap-2 min-w-0">
+        <a
+          href="#inicio"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          aria-label="Ir al inicio"
+          className="flex items-center gap-2 min-w-0 cursor-pointer"
+        >
           <div className="bg-primary p-1.5 rounded-lg max-[359px]:hidden">
             <Scale className="text-white w-5 h-5 sm:w-6 sm:h-6" />
           </div>
@@ -313,7 +321,7 @@ useEffect(() => {
           )}>
             Despedido<span className="text-accent">Uy</span>
           </span>
-        </div>
+        </a>
 
         {/* Menú reducido: solo dos acciones, visibles también en celular */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
@@ -346,7 +354,7 @@ useEffect(() => {
 const Hero = () => {
 
   return (
-    <section className="relative min-h-[100svh] flex items-center pt-24 pb-8 overflow-hidden bg-primary">
+    <section id="inicio" className="relative min-h-[100svh] flex items-center pt-24 pb-8 overflow-hidden bg-primary">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -1059,12 +1067,20 @@ const Footer = () => {
     <footer className="bg-slate-900 text-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center mb-12">
-          <div className="flex items-center gap-2 mb-6">
+          <a
+            href="#inicio"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            aria-label="Ir al inicio"
+            className="flex items-center gap-2 mb-6 cursor-pointer"
+          >
             <Scale className="text-accent w-8 h-8" />
             <span className="font-serif text-2xl font-bold tracking-tight">
               Despedido<span className="text-accent">Uy</span>
             </span>
-          </div>
+          </a>
           <p className="text-slate-400 max-w-sm mb-6">
             Especialistas en despidos en Montevideo y Canelones. Honestidad, compromiso y resultados.
           </p>

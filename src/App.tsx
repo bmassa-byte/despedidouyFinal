@@ -732,7 +732,7 @@ trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
                 <div className="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-xs sm:text-sm mb-8 text-left leading-relaxed">
                   <strong>⚠️ Importante:</strong> Este valor es una estimación básica, no vinculante. No incluye posibles horas extras impagas u otros rubros salariales que podrían hacer variar <strong>significativamente</strong> este monto.
                 </div>
-                <button onClick={handleWhatsApp} className="w-full bg-emerald-500 text-white text-sm sm:text-lg font-bold py-4 sm:py-5 px-4 rounded-2xl hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 sm:gap-3 animate-pulse">
+                <button onClick={handleWhatsApp} className="w-full bg-[#25D366] text-white text-sm sm:text-lg font-bold py-4 sm:py-5 px-4 rounded-2xl hover:bg-[#1EBE57] transition-all shadow-xl shadow-[#25D366]/20 flex items-center justify-center gap-2 sm:gap-3 animate-pulse">
                   <WhatsAppIcon size={20} className="flex-shrink-0" />
                   <span>Solicitar Análisis Exacto por WhatsApp</span>
                 </button>

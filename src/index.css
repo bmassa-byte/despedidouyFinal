@@ -41,3 +41,14 @@
     animation: none;
   }
 }
+
+/* Subtítulo de "¿Cuál es tu situación?": dos líneas fijas; en celular la letra
+   se ajusta al ancho para que cada línea entre entera. */
+.subtitulo-situacion {
+  font-size: clamp(0.75rem, calc((100vw - 2rem) * 0.046), 1.125rem);
+}
+@media (min-width: 640px) {
+  .subtitulo-situacion {
+    font-size: 1.25rem;
+  }
+}

@@ -642,7 +642,7 @@ trackConversion('AW-16641762776/IuRACICo24kdENjLtP89');
             <Calculator className="text-accent w-4 h-4" />
             <span className="text-accent text-xs font-bold uppercase tracking-widest">Herramienta Gratuita</span>
           </div>
-          <h2 className="text-xl min-[360px]:text-2xl min-[400px]:text-3xl md:text-5xl font-bold text-slate-900 mb-4 whitespace-nowrap">Calculadora de Indemnización</h2>
+          <h2 className="text-[clamp(1.125rem,6vw,1.875rem)] md:text-5xl font-bold text-slate-900 mb-4 whitespace-nowrap">Calculadora de Indemnización</h2>
           <p className="text-lg text-slate-600">Descubrí un estimado de cuánto te corresponde.</p>
         </div>
 

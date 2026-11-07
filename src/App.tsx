@@ -952,7 +952,7 @@ const FAQ = () => {
     },
     {
       q: "¿Toman cualquier caso de despido?",
-      a: "Analizamos cada caso. Como cobramos solo si vos cobrás, nos enfocamos en los reclamos con posibilidades reales, que suelen ser los de personas con varios años de antigüedad. Contanos tu situación y te decimos con franqueza si te conviene reclamar."
+      a: "Analizamos cada caso. Contanos tu situación y te decimos con franqueza si te conviene reclamar."
     },
     {
       q: "¿Qué pasa si trabajo 'en negro'?",

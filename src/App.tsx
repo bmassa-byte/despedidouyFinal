@@ -516,7 +516,7 @@ const Services = () => {
                       e.preventDefault();
                       openWhatsApp(s.whatsappText);
                     }}
-                    className="mt-auto w-full py-4 rounded-xl border-2 border-emerald-500 text-emerald-600 font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center gap-2"
+                    className="mt-auto w-full py-4 rounded-xl border-2 border-[#25D366] text-[#1EBE57] font-bold hover:bg-[#25D366] hover:text-white transition-all flex items-center justify-center gap-2"
                   >
                     Consultar por WhatsApp
                     <WhatsAppIcon size={18} />

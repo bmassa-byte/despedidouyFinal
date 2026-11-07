@@ -911,7 +911,7 @@ const Testimonials = () => {
     <section id="testimonios" className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Lo que dicen nuestros clientes</h2>
+          <h2 className="text-[clamp(1.125rem,6vw,1.875rem)] md:text-5xl font-bold text-slate-900 mb-4 whitespace-nowrap">Lo que dicen nuestros clientes</h2>
           <p className="text-[clamp(0.5rem,3vw,1.125rem)] text-slate-600 whitespace-nowrap">La confianza de quienes ya defendimos es nuestro respaldo.</p>
         </div>
       </div>

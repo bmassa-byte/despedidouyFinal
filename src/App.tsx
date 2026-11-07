@@ -1112,7 +1112,7 @@ const FloatingCTA = () => {
   e.preventDefault();
   openWhatsApp('Hola, llegué desde DespedidoUy y quiero consultar por mi situación laboral.');
 }}
-        className="bg-emerald-500 text-white p-4 rounded-full shadow-2xl animate-bounce hover:bg-emerald-600 transition-colors"
+        className="bg-[#25D366] text-white p-4 rounded-full shadow-2xl animate-bounce hover:bg-[#1EBE57] transition-colors"
         aria-label="Contactar por WhatsApp"
       >
         <WhatsAppIcon size={28} />

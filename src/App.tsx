@@ -1218,6 +1218,25 @@ const FloatingCTA = () => {
 };
 
 export default function App() {
+  // Si la URL trae un ancla (ej. #despido-indirecto, desde un anuncio),
+  // bajar a esa sección cuando la página ya está dibujada.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    const id = decodeURIComponent(hash.slice(1));
+    let tries = 0;
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'auto', block: 'start' });
+      } else if (tries++ < 20) {
+        setTimeout(tryScroll, 100);
+      }
+    };
+    const t = setTimeout(tryScroll, 300);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <div className="antialiased selection:bg-accent selection:text-primary">
       <Navbar />

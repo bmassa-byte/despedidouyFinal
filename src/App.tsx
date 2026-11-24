@@ -443,7 +443,9 @@ const Services = () => {
       items: ["Te redujeron el sueldo", "Te bajaron las horas o te cambiaron el horario", "Te cambiaron las condiciones de trabajo sin tu acuerdo", "Te dejaron de pagar lo que estaba acordado"],
       icon: <Clock className="w-8 h-8 text-accent" />,
       color: "bg-slate-900",
-      whatsappText: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto."
+      whatsappText: "Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto.",
+      moreHref: "#despido-indirecto",
+      moreLabel: "Saber más sobre despido indirecto"
     },
     {
       title: "Acuerdo o renuncia",
@@ -515,9 +517,18 @@ const Services = () => {
                         {item}
                       </div>
                     ))}
+                    {'moreHref' in s && s.moreHref && (
+                      <a
+                        href={s.moreHref}
+                        className="inline-flex items-center gap-1 pt-2 text-sm font-bold text-accent hover:underline"
+                      >
+                        {s.moreLabel}
+                        <ChevronRight size={16} className="rotate-90" />
+                      </a>
+                    )}
                   </div>
 
-                  <a 
+                  <a
                     href="https://wa.me/59891418114"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -534,6 +545,74 @@ const Services = () => {
               </motion.div>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DespidoIndirectoSection = () => {
+  const situaciones = [
+    "Te pasaron de jornada completa a medio horario",
+    "Te bajaron el sueldo o te quitaron partidas que cobrabas",
+    "Te atrasan el pago del salario mes a mes",
+    "Te cambiaron a un puesto de menor categoría o a otro lugar de trabajo",
+    "Recibís malos tratos o presiones para que te vayas"
+  ];
+
+  return (
+    <section id="despido-indirecto" className="py-16 bg-white scroll-mt-24">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-[32px] border border-slate-100 bg-slate-50 p-6 sm:p-10 lg:p-14">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="p-3 lg:p-4 bg-primary rounded-2xl flex-shrink-0">
+              <Clock className="w-8 h-8 text-accent" />
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900">¿Qué es el despido indirecto?</h2>
+          </div>
+
+          <p className="text-base md:text-lg text-slate-700 leading-relaxed mb-10">
+            Cuando la empresa cambia de forma grave tus condiciones de trabajo sin tu acuerdo y no te deja otra opción que irte, la ley lo puede considerar un despido. En ese caso podés reclamar la indemnización como si te hubieran despedido.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+            <div>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Situaciones comunes</p>
+              <div className="space-y-3">
+                {situaciones.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 text-sm md:text-base text-slate-700">
+                    <CheckCircle2 size={18} className="text-accent flex-shrink-0 mt-0.5" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <div className="rounded-2xl bg-primary p-6 text-white">
+                <p className="text-lg font-bold mb-2">Importante: consultanos antes de renunciar.</p>
+                <p className="text-white/80 text-sm md:text-base">
+                  Cómo te vas de la empresa puede cambiar lo que podés reclamar.
+                </p>
+              </div>
+              <p className="text-slate-700 text-sm md:text-base">
+                <span className="font-bold text-slate-900">Honorarios solo a resultado.</span> Contanos tu caso por WhatsApp y lo analizamos.
+              </p>
+              <a
+                href="https://wa.me/59891418114"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  openWhatsApp('Hola, llegué desde DespedidoUy. Me bajaron el sueldo o las horas y quiero consultar si puedo reclamar un despido indirecto.');
+                }}
+                className="w-full py-4 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#1EBE57] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#25D366]/20"
+              >
+                <WhatsAppIcon size={20} />
+                Consultar por WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1145,6 +1224,7 @@ export default function App() {
       <Hero />
       
       <Services />
+      <DespidoIndirectoSection />
       <CalculatorSection />
       <Process />
       <Testimonials />
